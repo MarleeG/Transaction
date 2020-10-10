@@ -3,10 +3,10 @@
     height: auto;
     background-color: #ffffff;
 
-    padding: 15px;
+    padding: 10px;
+    border-bottom: 3px solid #ed6d32;
 }
 
 .header__container > img{
-    display: flex;
-    margin: auto;
+margin: 5px 0px 5px 50px ;
 }
