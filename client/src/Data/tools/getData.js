@@ -15,7 +15,7 @@ export const getData = () => Data;
 
 const updateDateInUI = (date) => {
   let dateCondition = typeof date === "string";
-  console.log(`dateCondition: ${dateCondition}`);
+//   console.log(`dateCondition: ${dateCondition}`);
 
   if (dateCondition) {
     if (date.indexOf("-") === -1) {
@@ -71,7 +71,7 @@ export const updateData = () => {
     newData.push(obj);
   }
 
-  console.log(newData);
+//   console.log(newData);
 
   return newData;
 };

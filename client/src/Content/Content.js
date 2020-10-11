@@ -17,6 +17,28 @@ const Content = (props) => {
 
   const [transactions, updateTransactions] = useState([]);
 
+  const sortByDate = () => {
+    log('Sorting by Date...');
+  }
+
+  const sortByBeneficiary = () => {
+    log('Sorting by Beneficiary...');
+  }
+
+  const sortByAmount = () => {
+    log('Sorting by Amount...');
+
+  }
+
+  const sortHandler = (selected) => {
+    switch (selected){
+      case 'DATE': sortByDate(); break;
+      case 'BENEFICIARY': sortByBeneficiary(); break; 
+      case 'AMOUNT': sortByAmount(); break; 
+      default: sortByDate();
+    }
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -90,7 +112,7 @@ const Content = (props) => {
 
               {["DATE", "BENEFICIARY", "AMOUNT"].map((val, key) => {
                 return (
-                  <li key={key} className="recent-transaction-wdg__filters-li">
+                  <li key={key} className="recent-transaction-wdg__filters-li" onClick={() => sortHandler(val)}>
                     {val}
                   </li>
                 );
