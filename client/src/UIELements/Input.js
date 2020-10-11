@@ -10,9 +10,11 @@ const Input = (props) => {
     val,
     prependSign,
     stylesForPrependSign,
+    stylesForInputContainer,
+    classes
   } = props;
   return (
-    <div className="input__container">
+    <div className="input__container" style={stylesForInputContainer && stylesForInputContainer}>
       {label && <label>{label}</label>}
 
       {prependSign ? (
@@ -29,8 +31,9 @@ const Input = (props) => {
       ) : (
         <input
           type={type || "text"}
-          placeholder={placeholder}
+          placeholder={placeholder && placeholder}
           value={val}
+          className={classes && classes}
           disabled={disabled || false}
         />
       )}

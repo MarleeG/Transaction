@@ -1,10 +1,12 @@
+/* default */
 .widget__container {
-  border-left: 1px solid#dfdcd9;
+  background: #fff;
+
+  /* border-left: 1px solid#dfdcd9;
   border-right: 1px solid#dfdcd9;
   border-bottom: 1px solid#dfdcd9;
-  border-top: none;
+  border-top: none; */
 
-  /* border: 1px solid black; */
   margin: 10px;
   border-radius: 2px;
 }
@@ -13,7 +15,8 @@
   background-color: #308397;
   height: 13%;
   position: relative;
-  border-radius: 2px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
 }
 
 .widget__header-wrapper h3 {
@@ -41,6 +44,76 @@ span.widget-header-icon img {
   width: 2.5vw;
 }
 
+.recent-transaction-wdg {
+  /* position: relative; */
+  /* display:flex; */
+}
+
+/* Make transfer widget */
 .make-transfer-wdg {
   height: 45vh;
+}
+
+/* Recent transaction widget */
+
+.recent-transaction-wdg__wrapper {
+  border: 1px dotted blue;
+  height: 87%;
+  overflow-y: scroll;
+}
+
+/* filters section */
+.recent-transaction-wdg__filters {
+  height: 12%;
+  border: 2px dotted greenyellow;
+
+  display: flex;
+  flex-direction: row;
+
+  /* justify-content: center; */
+  /* justify-content: space-evenly; */
+
+  justify-content: space-between;
+}
+
+.recent-transaction-wdg__filters-input {
+  width: 100%;
+  /* float: left; */
+}
+
+.recent-transaction-wdg__filters-sort-by-txt {
+  display: flex;
+justify-content: center;
+flex-direction: column;
+margin-right: 15px;
+}
+
+ul.recent-transaction-wdg__filters-ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  height: 75%;
+  justify-content: center;
+  align-self: center;
+}
+
+li.recent-transaction-wdg__filters-li {
+  border: 1px solid #ddd;
+  padding: 0px 12px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+li.recent-transaction-wdg__filters-li:hover{
+    background-color: #dfdcd9;
+}
+
+/* results section  */
+.recent-transaction-wdg__results {
+  height: 88%;
+
+  border: 2px dotted rgb(255, 47, 168);
 }
