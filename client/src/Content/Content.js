@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Widget from "../UIELements/Widget";
 import Input from "../UIELements/Input";
 import Button from "../UIELements/Button";
-import { getData } from "../Data/tools/getData";
+import { getData, updateData } from "../Data/tools/getData";
 
 import { randomColorGenerator } from "../UIELements/ui-tools/ui-tools";
 
@@ -11,6 +11,7 @@ import TransactionIcon from "../UIELements/assets/icons/briefcase.png";
 
 import "./Content.css";
 
+const log = console.log;
 const Content = (props) => {
   const [currentBalance, updateCurrentBalance] = useState(5824.76);
 
@@ -21,9 +22,9 @@ const Content = (props) => {
   };
 
   useEffect(() => {
-    console.log(getData().data);
+    console.log(updateData());
 
-    updateTransactions(getData().data);
+    updateTransactions(updateData());
   }, []);
 
   return (
@@ -99,30 +100,19 @@ const Content = (props) => {
 
           <div className="recent-transaction-wdg__results recent-transaction-wdg__col">
             <ul className="recent-transaction-wdg__results-ul">
-              {/* {["Some", "dummy", "data"].map((val, key) => {
-                return (
-                  <li
-                    key={key}
-                    className="recent-transaction-wdg__results-li"
-                    style={{
-                      borderLeft: `10px solid ${randomColorGenerator()}`,
-                    }}
-                  >
-                    {val}
-                  </li>
-                );
-              })} */}
-
               {transactions.length > 0 &&
                 transactions.map((obj, key) => {
                   const {
                     dates: { valueDate },
-                    merchant: {name},
+                    merchant: { name },
                     transaction: {
                       amountCurrency: { amount },
-                      type
+                      type,
                     },
+
+                    imgData: { src, alt },
                   } = obj;
+
                   return (
                     <li
                       key={key}
@@ -131,15 +121,35 @@ const Content = (props) => {
                         borderLeft: `10px solid ${randomColorGenerator()}`,
                       }}
                     >
-                      <p>Date: {valueDate}</p>
-                      <div>Logo: img here</div>
+                      <div className="recent-transaction-wdg__results-li-row-one">
+                        <p className="recent-transaction-wdg__results-li-row-one-date">
+                          {valueDate}
+                        </p>
+                        <div className="recent-transaction-wdg__results-li-row-one-img-wrapper">
+                          <img
+                            className="recent-transaction-wdg__results-company-img"
+                            src={src}
+                            alt={alt}
+                          />
+                        </div>
 
-                      <div>
-                    <p>Company: {name}</p>
-                    <p>Card Type: {type}</p>
+                        <div
+                          className="recent-transaction-wdg__results-li-row-one-transaction-info-wrapper"
+                        >
+                          <strong>
+                            <p className="recent-transaction-wdg__results-li-row-one-transaction-info-name">
+                              {name}
+                            </p>
+                          </strong>
+                          <p className="recent-transaction-wdg__results-li-row-one-transaction-info-type">
+                            {type}
+                          </p>
+                        </div>
                       </div>
 
-                      <p>Amount: ${amount}</p>
+                      <div className="recent-transaction-wdg__results-li-row-two">
+                        <p>-${amount}</p>
+                      </div>
                     </li>
                   );
                 })}
