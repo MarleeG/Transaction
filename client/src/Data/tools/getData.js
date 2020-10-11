@@ -65,8 +65,12 @@ export const updatedData = () => {
       }
     }
 
+
+    if(typeof obj.transaction.amountCurrency.amount === 'string'){
+        obj.transaction.amountCurrency.amount = parseFloat(obj.transaction.amountCurrency.amount);
+    }
+
     date = updateDateInUI(date);
-    // obj.dates.valueDate = date;
     obj.dates.userDate = date;
 
     let currentCompanyName = obj.merchant.name;
