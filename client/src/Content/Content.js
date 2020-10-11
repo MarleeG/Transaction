@@ -35,6 +35,12 @@ const Content = (props) => {
     alt: "",
   });
 
+  const [sortAmountIcon, updateSortAmountIcon] = useState({
+    order: "asc",
+    src: "",
+    alt: "",
+  });
+
   const sortByDate = useCallback(() => {
     log("Sorting by Date...");
 
@@ -88,14 +94,9 @@ const Content = (props) => {
   }, [sortByIcon, pageUpdate]);
 
   const sortByBeneficiary = useCallback(() => {
-   
     log("Sorting by Beneficiary...");
 
-    const sortedByOrder = _.orderBy(
-      transactions,
-      ["merchant.name"],
-      ["asc"]
-    );
+    const sortedByOrder = _.orderBy(transactions, ["merchant.name"], ["asc"]);
 
     const sortedByReverseOrder = _.orderBy(
       transactions,
@@ -113,7 +114,6 @@ const Content = (props) => {
         src: DownArrow,
         alt: "down-arrow",
       });
-
     } else if (sortBeneIcon.order == "dsc") {
       log(sortBeneIcon.order);
       updateTransactions(sortedByReverseOrder);
@@ -125,7 +125,6 @@ const Content = (props) => {
         src: UpArrow,
         alt: "up-arrow",
       });
-
     }
 
     log(
@@ -134,9 +133,57 @@ const Content = (props) => {
     handlePageUpdate(false);
   }, [sortBeneIcon, pageUpdate]);
 
-  const sortByAmount = () => {
+  const sortByAmount = useCallback(() => {
     log("Sorting by Amount...");
-  };
+
+    log("Sorting by Date...");
+
+    const sortBySmallest = _.orderBy(
+      transactions,
+      ["transaction.amountCurrency.amount"],
+      ["asc"]
+    );
+
+    const sortByLargest = _.orderBy(
+      transactions,
+      ["transaction.amountCurrency.amount"],
+      ["desc"]
+    );
+
+    if (sortAmountIcon.order === "asc") {
+      log(sortAmountIcon.order);
+      updateTransactions(sortBySmallest);
+      handlePageUpdate(true);
+
+      updateSortAmountIcon({
+        ...sortAmountIcon,
+        order: "dsc",
+        src: DownArrow,
+        alt: "down-arrow",
+      });
+
+      log("sortBySmallest ", sortBySmallest);
+    } else if (sortAmountIcon.order === "dsc") {
+      log(sortAmountIcon.order);
+      updateTransactions(sortByLargest);
+      handlePageUpdate(true);
+
+      updateSortAmountIcon({
+        ...sortAmountIcon,
+        order: "asc",
+        src: UpArrow,
+        alt: "up-arrow",
+      });
+
+      log("sortByLargest ", sortByLargest);
+    }
+
+    log(
+      "-----------------------------------------------------------------------------------------"
+    );
+
+    handlePageUpdate(false);
+  }, [sortAmountIcon, pageUpdate]);
 
   const sortHandler = (selected) => {
     switch (selected) {
@@ -324,27 +371,20 @@ const Content = (props) => {
                           />
                         ))}
 
-                      {val === "AMOUNT" && (
-                        <img
-                          src={UpArrow}
-                          alt="up-arrow"
-                          className="recent-transaction-wdg__filters-li-sort-by-icon"
-                        />
-                      )}
-
-                      {/* {sortByIcon.src !== "" ? (
-                        <img
-                          src={sortByIcon.src}
-                          alt={sortByIcon.alt}
-                          className="recent-transaction-wdg__filters-li-sort-by-icon"
-                        />
-                      ) : (
-                        <img
-                          src={UpArrow}
-                          alt="up-arrow"
-                          className="recent-transaction-wdg__filters-li-sort-by-icon"
-                        />
-                      )} */}
+                      {val === "AMOUNT" &&
+                        (sortAmountIcon.src !== "" ? (
+                          <img
+                            src={sortAmountIcon.src}
+                            alt={sortAmountIcon.alt}
+                            className="recent-transaction-wdg__filters-li-sort-by-icon"
+                          />
+                        ) : (
+                          <img
+                            src={UpArrow}
+                            alt="up-arrow"
+                            className="recent-transaction-wdg__filters-li-sort-by-icon"
+                          />
+                        ))}
                     </span>
                   </li>
                 );
