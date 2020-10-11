@@ -1,8 +1,17 @@
-html{
-  background: url(UIELements/assets/background.jpg) no-repeat center center fixed;
+/* html, body {
+  height:100%;
+  padding:0;
+  margin:0;
+
+  overflow-y: hidden;
+ } */
+
+html {
+  background: url(UIELements/assets/background.jpg) no-repeat center center
+    fixed;
+
   background-size: cover;
 }
-
 
 body {
   margin: 0;

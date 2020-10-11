@@ -1,8 +1,16 @@
 .content__container{
     border: 2px dotted purple;
     background: #fff;
-    opacity: .5;
     width: 95vw;
-    height: 85vh;
+    height: 83vh;
     margin: auto;
+    margin-top: 5px;
+
+    display: flex;
+    flex-direction: row;
+
+    padding: 10px;
+    justify-content: center;
+
+
 }
