@@ -35,7 +35,7 @@ const changeDateFormat = (currentFormat) => {
   return Date.parse(currentFormat);
 };
 
-export const updateData = () => {
+export const updatedData = () => {
   let initialData = Data.data;
   let newData = [];
   let initialCompanyIMGData = [

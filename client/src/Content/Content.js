@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import moment from 'moment';
-import _ from 'lodash';
+import moment from "moment";
+import _ from "lodash";
 
 import Widget from "../UIELements/Widget";
 import Input from "../UIELements/Input";
 import Button from "../UIELements/Button";
-import { getData, updateData } from "../Data/tools/getData";
+import { getData, updatedData } from "../Data/tools/getData";
 
 import { randomColorGenerator } from "../UIELements/ui-tools/ui-tools";
 
@@ -29,18 +29,31 @@ const Content = (props) => {
     alt: "",
   });
 
+  const [sortBeneIcon, updateSortBeneIcon] = useState({
+    order: "asc",
+    src: "",
+    alt: "",
+  });
+
   const sortByDate = useCallback(() => {
     log("Sorting by Date...");
 
-    const sortedDatesEarliest = _.orderBy(transactions, ['dates.valueDate'], ['asc']);
+    const sortedDatesEarliest = _.orderBy(
+      transactions,
+      ["dates.valueDate"],
+      ["asc"]
+    );
 
-    const sortedDatesRecent = _.orderBy(transactions, ['dates.valueDate'], ['desc']);
+    const sortedDatesRecent = _.orderBy(
+      transactions,
+      ["dates.valueDate"],
+      ["desc"]
+    );
 
     if (sortByIcon.order === "asc") {
       log(sortByIcon.order);
       updateTransactions(sortedDatesEarliest);
-    handlePageUpdate(true);
-
+      handlePageUpdate(true);
 
       updateSortByIcon({
         ...sortByIcon,
@@ -50,12 +63,10 @@ const Content = (props) => {
       });
 
       log("sortedDatesEarliest ", sortedDatesEarliest);
-
     } else if (sortByIcon.order === "dsc") {
       log(sortByIcon.order);
       updateTransactions(sortedDatesRecent);
-    handlePageUpdate(true);
-
+      handlePageUpdate(true);
 
       updateSortByIcon({
         ...sortByIcon,
@@ -73,13 +84,55 @@ const Content = (props) => {
 
     handlePageUpdate(false);
 
-
     // pageUpdate, transactions, sortByIcon
   }, [sortByIcon, pageUpdate]);
 
-  const sortByBeneficiary = () => {
+  const sortByBeneficiary = useCallback(() => {
+   
     log("Sorting by Beneficiary...");
-  };
+
+    const sortedByOrder = _.orderBy(
+      transactions,
+      ["merchant.name"],
+      ["asc"]
+    );
+
+    const sortedByReverseOrder = _.orderBy(
+      transactions,
+      ["merchant.name"],
+      ["desc"]
+    );
+
+    if (sortBeneIcon.order === "asc") {
+      updateTransactions(sortedByOrder);
+      handlePageUpdate(true);
+
+      updateSortBeneIcon({
+        ...sortBeneIcon,
+        order: "dsc",
+        src: DownArrow,
+        alt: "down-arrow",
+      });
+
+    } else if (sortBeneIcon.order == "dsc") {
+      log(sortBeneIcon.order);
+      updateTransactions(sortedByReverseOrder);
+      handlePageUpdate(true);
+
+      updateSortBeneIcon({
+        ...sortBeneIcon,
+        order: "asc",
+        src: UpArrow,
+        alt: "up-arrow",
+      });
+
+    }
+
+    log(
+      "-----------------------------------------------------------------------------------------"
+    );
+    handlePageUpdate(false);
+  }, [sortBeneIcon, pageUpdate]);
 
   const sortByAmount = () => {
     log("Sorting by Amount...");
@@ -165,7 +218,7 @@ const Content = (props) => {
 
   useEffect(() => {
     if (pageUpdate) {
-      updateTransactions(updateData());
+      updateTransactions(updatedData());
       handlePageUpdate(false);
     }
   }, [transactions]);
@@ -241,8 +294,8 @@ const Content = (props) => {
                     <span>
                       {val}
 
-                      {val === "DATE" ? (
-                        sortByIcon.src !== "" ? (
+                      {val === "DATE" &&
+                        (sortByIcon.src !== "" ? (
                           <img
                             src={sortByIcon.src}
                             alt={sortByIcon.alt}
@@ -254,8 +307,24 @@ const Content = (props) => {
                             alt="up-arrow"
                             className="recent-transaction-wdg__filters-li-sort-by-icon"
                           />
-                        )
-                      ) : (
+                        ))}
+
+                      {val === "BENEFICIARY" &&
+                        (sortBeneIcon.src !== "" ? (
+                          <img
+                            src={sortBeneIcon.src}
+                            alt={sortBeneIcon.alt}
+                            className="recent-transaction-wdg__filters-li-sort-by-icon"
+                          />
+                        ) : (
+                          <img
+                            src={UpArrow}
+                            alt="up-arrow"
+                            className="recent-transaction-wdg__filters-li-sort-by-icon"
+                          />
+                        ))}
+
+                      {val === "AMOUNT" && (
                         <img
                           src={UpArrow}
                           alt="up-arrow"
