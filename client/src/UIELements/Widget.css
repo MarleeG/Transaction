@@ -109,6 +109,21 @@ li.recent-transaction-wdg__filters-li {
   flex-direction: column;
 }
 
+.recent-transaction-wdg__filters-li > span {
+  display: flex;
+  flex-direction: row;
+}
+
+img.recent-transaction-wdg__filters-li-sort-by-icon {
+  width: 1vw;
+  height: auto;
+  padding: 1px;
+  margin: 1px;
+
+  filter: grayscale(150%);
+  opacity: .5;
+}
+
 li.recent-transaction-wdg__filters-li:hover {
   background-color: #dfdcd9;
 }
@@ -125,7 +140,6 @@ ul.recent-transaction-wdg__results-ul {
   margin: 0;
   display: flex;
   flex-direction: column;
-  /* height: 75%; */
   justify-content: center;
   align-self: center;
 }
@@ -172,24 +186,21 @@ img.recent-transaction-wdg__results-company-img {
   filter: grayscale(100%);
 }
 
-.recent-transaction-wdg__results-li-row-two{
-    display: flex;
-justify-content: center;
-flex-direction: column;
+.recent-transaction-wdg__results-li-row-two {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 
-border: 2px dotted red;
-width: 25%;
+  border: 2px dotted red;
+  width: 25%;
 
-position: relative;
+  position: relative;
 }
 
-
-.recent-transaction-wdg__results-li-row-two > p{
-    float: left;
-    position: absolute;
-    right: 0;
-    margin-right: 10px;
-    font-weight: 800;
-
+.recent-transaction-wdg__results-li-row-two > p {
+  float: left;
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+  font-weight: 800;
 }
-
