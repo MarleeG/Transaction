@@ -1,0 +1,10 @@
+.widget__container{
+    border: 2px dotted hotpink;
+
+    margin: 10px
+}
+
+
+.make-transfer-wdg{
+    height: 45vh;
+}
