@@ -1,0 +1,29 @@
+.input__container {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 2px;
+}
+
+label {
+  width: 95%;
+  align-self: center;
+}
+
+input {
+    border: none;
+    border-bottom: 2px solid #dfdcd9;
+    width: 95%;
+    height: 4vh;
+    align-self: center;
+  }
+
+.unit-input__prepend {
+  color: #a3a0a0;
+  padding: 0.5em;
+  padding-right: 0;
+  flex-grow: 0;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+
