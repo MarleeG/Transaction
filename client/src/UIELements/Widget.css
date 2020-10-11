@@ -142,12 +142,6 @@ li.recent-transaction-wdg__results-li {
   border: 2px dotted blue;
   display: flex;
   flex-direction: row;
-
-  /* justify-content: center; */
-  /* flex-direction: c; */
-  /* float: left; */
-
-  /* justify-content: space-between; */
 }
 
 .recent-transaction-wdg__results-li-row-one > p {
@@ -174,12 +168,12 @@ p.recent-transaction-wdg__results-li-row-one-transaction-info-type {
 img.recent-transaction-wdg__results-company-img {
   width: 3.5vw;
   height: auto;
+
+  filter: grayscale(100%);
 }
 
 .recent-transaction-wdg__results-li-row-two{
     display: flex;
-/* justify-content: flex-end; */
-
 justify-content: center;
 flex-direction: column;
 
