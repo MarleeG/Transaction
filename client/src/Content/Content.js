@@ -1,5 +1,7 @@
 import React from "react";
 import Widget from "../UIELements/Widget";
+import TransferIcon from '../UIELements/assets/icons/arrows.png'
+import TransactionIcon from '../UIELements/assets/icons/briefcase.png';
 
 import "./Content.css";
 const Content = (props) => {
@@ -8,14 +10,24 @@ const Content = (props) => {
       <Widget
         header="Make a Transfer"
         width="20vw"
-        // height="400px"
         classes="make-transfer-wdg"
+        // headerIcon={TransferIcon}
+        headerIcon={TransferIcon}
+
+        headerIconAlt="transfer icon"
       >
 
 
       </Widget>
 
-      <Widget header="Recent Transactions" width="55vw" classes='recent-transaction-wdg'></Widget>
+      <Widget 
+      header="Recent Transactions" 
+      width="55vw" 
+      headerIcon={TransactionIcon}
+      headerIconAlt="transaction icon"
+
+      
+      classes='recent-transaction-wdg'></Widget>
     </div>
   );
 };
