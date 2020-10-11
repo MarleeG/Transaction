@@ -11,11 +11,11 @@ import BackbaseIMG from "../../UIELements/assets/icons/backbase.png";
 import AmazonIMG from "../../UIELements/assets/icons/amazon-online-store.png";
 import SEIMG from "../../UIELements/assets/icons/7-eleven.png";
 
+// const log = console.log;
 export const getData = () => Data;
 
 const updateDateInUI = (date) => {
   let dateCondition = typeof date === "string";
-//   console.log(`dateCondition: ${dateCondition}`);
 
   if (dateCondition) {
     if (date.indexOf("-") === -1) {
@@ -29,6 +29,10 @@ const updateDateInUI = (date) => {
   const UIDate = `${splitDate[1]}. ${splitDate[2]}`;
 
   return UIDate;
+};
+
+const changeDateFormat = (currentFormat) => {
+  return Date.parse(currentFormat);
 };
 
 export const updateData = () => {
@@ -54,8 +58,16 @@ export const updateData = () => {
   for (let i = 0; i < initialData.length; i++) {
     let obj = initialData[i];
     let date = obj.dates.valueDate;
+
+    if (typeof obj.dates.valueDate === "string") {
+      if (obj.dates.valueDate.split("-").length === 3) {
+        obj.dates.valueDate = changeDateFormat(obj.dates.valueDate);
+      }
+    }
+
     date = updateDateInUI(date);
-    obj.dates.valueDate = date;
+    // obj.dates.valueDate = date;
+    obj.dates.userDate = date;
 
     let currentCompanyName = obj.merchant.name;
 
@@ -63,15 +75,12 @@ export const updateData = () => {
       initialCompanyIMGData.find((elm) => elm.name === currentCompanyName) ||
       {};
 
-    // if (imgData !== {}) {
-    // }
-
     obj = { ...obj, imgData };
 
     newData.push(obj);
   }
 
-//   console.log(newData);
+  //   console.log(newData);
 
   return newData;
 };
