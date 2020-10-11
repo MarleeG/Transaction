@@ -1,0 +1,11 @@
+.make-transfer-btn{
+    margin: 10px;
+    float: right;
+    background-color: #ee7033;
+    border: none;
+    color: #fff;
+    width: 40%;
+    padding: 10px;
+    font-size: large;
+    border-radius: 4px;
+}

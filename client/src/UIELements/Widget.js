@@ -6,7 +6,7 @@ const Widget = (props) => {
   const { width, header, classes, headerIcon, headerIconAlt, children } = props;
 
   const styles = {
-    width: width,
+    width: width
   };
 
   return (
