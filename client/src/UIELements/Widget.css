@@ -76,7 +76,6 @@ span.widget-header-icon img {
   /* justify-content: center; */
   /* justify-content: space-evenly; */
 
-
   justify-content: space-between;
 }
 
@@ -86,9 +85,9 @@ span.widget-header-icon img {
 
 .recent-transaction-wdg__filters-sort-by-txt {
   display: flex;
-justify-content: center;
-flex-direction: column;
-margin-right: 15px;
+  justify-content: center;
+  flex-direction: column;
+  margin-right: 15px;
 }
 
 ul.recent-transaction-wdg__filters-ul {
@@ -110,30 +109,93 @@ li.recent-transaction-wdg__filters-li {
   flex-direction: column;
 }
 
-li.recent-transaction-wdg__filters-li:hover{
-    background-color: #dfdcd9;
+li.recent-transaction-wdg__filters-li:hover {
+  background-color: #dfdcd9;
 }
 
 /* results section  */
 .recent-transaction-wdg__results {
-  height: 88%;
-
+  height: auto;
   border: 2px dotted rgb(255, 47, 168);
 }
 
-ul.recent-transaction-wdg__results-ul{
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    /* height: 75%; */
-    justify-content: center;
-    align-self: center;
+ul.recent-transaction-wdg__results-ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  /* height: 75%; */
+  justify-content: center;
+  align-self: center;
 }
 
-li.recent-transaction-wdg__results-li{
-    /* background-color: #dfdcd9; */
-    padding: 5px;
-    border: 1px solid #dfdcd9;
+li.recent-transaction-wdg__results-li {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+  border: 1px solid #dfdcd9;
 }
+
+.recent-transaction-wdg__results-li-row-one {
+  width: 75%;
+  border: 2px dotted blue;
+  display: flex;
+  flex-direction: row;
+
+  /* justify-content: center; */
+  /* flex-direction: c; */
+  /* float: left; */
+
+  /* justify-content: space-between; */
+}
+
+.recent-transaction-wdg__results-li-row-one > p {
+  padding: 5px;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-right: 3vw;
+}
+
+div.recent-transaction-wdg__results-li-row-one-img-wrapper {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-right: 3vw;
+}
+
+p.recent-transaction-wdg__results-li-row-one-transaction-info-type {
+  color: #a3a0a0;
+}
+
+img.recent-transaction-wdg__results-company-img {
+  width: 3.5vw;
+  height: auto;
+}
+
+.recent-transaction-wdg__results-li-row-two{
+    display: flex;
+/* justify-content: flex-end; */
+
+justify-content: center;
+flex-direction: column;
+
+border: 2px dotted red;
+width: 25%;
+
+position: relative;
+}
+
+
+.recent-transaction-wdg__results-li-row-two > p{
+    float: left;
+    position: absolute;
+    right: 0;
+    margin-right: 10px;
+    font-weight: 800;
+
+}
+
