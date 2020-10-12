@@ -36,7 +36,7 @@ input.input__toAccount{
     margin: 10px
 }
 
-.react-select-container{
+.make-transfer-wdg__react-select-container{
     width: 95%;
     align-self: center;
     outline: none;
