@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Select from "react-select";
+import Async, { makeAsyncSelect } from "react-select/async";
+
 import _ from "lodash";
 
 import Widget from "../UIELements/Widget";
@@ -75,6 +77,20 @@ const Content = (props) => {
         alt: "down-arrow",
       });
 
+      // others
+      updateSortAmountIcon({
+        ...sortAmountIcon,
+        order: "asc",
+        src: UpArrow,
+        alt: "up-arrow",
+      });
+      updateSortBeneIcon({
+        ...sortBeneIcon,
+        order: "asc",
+        src: UpArrow,
+        alt: "up-arrow",
+      });
+
       log("sortedDatesEarliest ", sortedDatesEarliest);
     } else if (sortByIcon.order === "dsc") {
       log(sortByIcon.order);
@@ -86,6 +102,20 @@ const Content = (props) => {
         order: "asc",
         src: UpArrow,
         alt: "up-arrow",
+      });
+
+      // others
+      updateSortAmountIcon({
+        ...sortAmountIcon,
+        order: "dsc",
+        src: DownArrow,
+        alt: "down-arrow",
+      });
+      updateSortBeneIcon({
+        ...sortBeneIcon,
+        order: "dsc",
+        src: DownArrow,
+        alt: "down-arrow",
       });
 
       log("sortedDatesRecent ", sortedDatesRecent);
@@ -121,6 +151,21 @@ const Content = (props) => {
         src: DownArrow,
         alt: "down-arrow",
       });
+
+      // others
+      updateSortByIcon({
+        ...sortByIcon,
+        order: "asc",
+        src: UpArrow,
+        alt: "up-arrow",
+      });
+
+      updateSortAmountIcon({
+        ...sortAmountIcon,
+        order: "asc",
+        src: UpArrow,
+        alt: "up-arrow",
+      });
     } else if (sortBeneIcon.order == "dsc") {
       log(sortBeneIcon.order);
       updateTransactions(sortedByReverseOrder);
@@ -132,11 +177,23 @@ const Content = (props) => {
         src: UpArrow,
         alt: "up-arrow",
       });
+
+      // others
+      updateSortByIcon({
+        ...sortByIcon,
+        order: "dsc",
+        src: DownArrow,
+        alt: "down-arrow",
+      });
+
+      updateSortAmountIcon({
+        ...sortAmountIcon,
+        order: "dsc",
+        src: DownArrow,
+        alt: "down-arrow",
+      });
     }
 
-    log(
-      "-----------------------------------------------------------------------------------------"
-    );
     handlePageUpdate(false);
   }, [sortBeneIcon, pageUpdate]);
 
@@ -169,6 +226,21 @@ const Content = (props) => {
         alt: "down-arrow",
       });
 
+      // others
+      updateSortByIcon({
+        ...sortByIcon,
+        order: "asc",
+        src: UpArrow,
+        alt: "up-arrow",
+      });
+
+      updateSortBeneIcon({
+        ...sortBeneIcon,
+        order: "asc",
+        src: UpArrow,
+        alt: "up-arrow",
+      });
+
       log("sortBySmallest ", sortBySmallest);
     } else if (sortAmountIcon.order === "dsc") {
       log(sortAmountIcon.order);
@@ -180,6 +252,21 @@ const Content = (props) => {
         order: "asc",
         src: UpArrow,
         alt: "up-arrow",
+      });
+
+      // others
+      updateSortByIcon({
+        ...sortByIcon,
+        order: "dsc",
+        src: DownArrow,
+        alt: "down-arrow",
+      });
+
+      updateSortBeneIcon({
+        ...sortBeneIcon,
+        order: "dsc",
+        src: DownArrow,
+        alt: "down-arrow",
       });
     }
 
@@ -260,15 +347,26 @@ const Content = (props) => {
     );
   };
 
-  // Inputs
-  const [toAccountInputVal, updateToAccountInput] = useState("");
+  // dropdowns
+  const [toAccountDropdownVal, updateToAccountDropdown] = useState("");
 
+  const [recentTransactionDropdown, updateRecentTransactionDropdown] = useState(
+    ""
+  );
+
+  // Inputs
   const [amountInputVal, updateAmountInput] = useState(0.0);
 
   const [searchByInputVal, updateSearchByInput] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    log(`Make transfer widget values`);
+    log(`to account: ${toAccountDropdownVal}`);
+    log(`amount: ${amountInputVal}`);
+
+
   };
 
   const handleChange = (e) => {
@@ -290,13 +388,9 @@ const Content = (props) => {
     // const isDash = currentKeyCode === 173;
     const isDot = currentKeyCode === 190;
 
-    // name="toAccountInput"
     // name="amountInput"
     // name="searchByInput"
     switch (name) {
-      case "toAccountInput":
-        updateToAccountInput(value);
-        break;
       case "amountInput":
         if (isDot && amountInputVal.toString().split("").indexOf(".") === -1) {
           updateAmountInput(value);
@@ -316,9 +410,8 @@ const Content = (props) => {
   };
 
   const keyDown = (e) => {
-    const { key, keyCode } = e;
+    const { keyCode } = e;
 
-    // updateCurrentKey(key);
     updateCurrentKeyCode(keyCode);
   };
 
@@ -342,17 +435,40 @@ const Content = (props) => {
     return options;
   };
 
-  const handleDropdownSelection = (e) => {
-    console.log(e);
+  const handleDropdownChange = (e, dropdownSelected) => {
+    const { value } = e;
+
+    log("dropdown...");
+    log(e);
+
+    log(`toAccountDropdown: ${value}`);
+
+    log(`dropdownSelected: ${dropdownSelected}`);
+
+    log("-------------------");
+
+    switch (dropdownSelected) {
+      case "toAccountDropDown":
+        updateToAccountDropdown(value);
+        break;
+
+      // case ''
+      // break;
+
+      default:
+        alert("err in dropdown selection");
+    }
   };
+
+  const handleDropdownKeyDown = e => {
+    log(e.key);
+  }
 
   useEffect(() => {
     if (pageUpdate) {
       updateTransactions(updatedData());
       handlePageUpdate(false);
     }
-
-    // log()
 
     updateDropdownOptions(generateDropdownOptions());
   }, [transactions]);
@@ -393,8 +509,21 @@ const Content = (props) => {
               options={dropdownOptions}
               width="50px"
               menuColor="slate"
-              className="react-select-container"
+              className="make-transfer-wdg__react-select-container"
+              onChange={(e) => handleDropdownChange(e, "toAccountDropDown")}
+
+              // onKeyDown={handleDropdownKeyDown}
             />
+
+            // <Async
+            //   className="make-transfer-wdg__react-select-container"
+            //   options={dropdownOptions}
+            //   cacheOptions
+            //   defaultOptions
+            //   placeholder="Start typing to select restaurant"
+            //   // loadOptions={promiseOptions}
+            //   onChange={(e) => handleDropdownChange(e, "toAccountDropDown")}
+            // />
           )}
 
           <Input
