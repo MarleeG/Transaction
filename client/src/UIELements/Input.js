@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 import "./Input.css";
 const Input = (props) => {
@@ -11,31 +11,58 @@ const Input = (props) => {
     prependSign,
     stylesForPrependSign,
     stylesForInputContainer,
-    classes
-  } = props;
-  return (
-    <div className="input__container" style={stylesForInputContainer && stylesForInputContainer}>
-      {label && <label>{label}</label>}
+    classes,
+    showInput,
+    name,
 
+    children,
+  } = props;
+
+  return (
+    // <Fragment>
+    //   {label && <label>{label}</label>}
+
+    //   {children ? (
+    //     <div className={`input__container ${classes}`}>
+    //         {children}
+    //     </div>
+    //   ) : (
+
+    //   )}
+    // </Fragment>
+
+    <div
+      className="input__container"
+      style={stylesForInputContainer && stylesForInputContainer}
+    >
+      {label && <label>{label}</label>}
       {prependSign ? (
         <span style={stylesForPrependSign && stylesForPrependSign}>
-          <span className="unit-input__prepend">{prependSign}</span>
+          <span className="input__container-prepend">{prependSign}</span>
 
           <input
             type={type || "text"}
             placeholder={placeholder}
             value={val}
             disabled={disabled || false}
+            name={name}
+            onChange={(e) => props.handleChange(e)}
+            onKeyDown={(e) => props.onKeyDown(e)}
           />
         </span>
       ) : (
-        <input
-          type={type || "text"}
-          placeholder={placeholder && placeholder}
-          value={val}
-          className={classes && classes}
-          disabled={disabled || false}
-        />
+        showInput && (
+          <input
+            type={type || "text"}
+            placeholder={placeholder && placeholder}
+            value={val}
+            className={classes && classes}
+            disabled={disabled || false}
+            name={name}
+            onChange={(e) => props.handleChange(e)}
+            onKeyDown={(e) => props.onKeyDown(e)}
+          />
+        )
       )}
     </div>
   );

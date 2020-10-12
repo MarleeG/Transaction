@@ -9,15 +9,16 @@ label {
   align-self: center;
 }
 
-input {
+input{
     border: none;
     border-bottom: 2px solid #dfdcd9;
     width: 95%;
     height: 4vh;
     align-self: center;
+    outline: none;
   }
 
-.unit-input__prepend {
+.input__container-prepend{
   color: #a3a0a0;
   padding: 0.5em;
   padding-right: 0;
@@ -26,4 +27,19 @@ input {
   vertical-align: middle;
 }
 
+input[type=text]:focus {
+    border-bottom: 3px solid #555;
+}
 
+
+input.input__toAccount{
+    margin: 10px
+}
+
+.react-select-container{
+    width: 95%;
+    align-self: center;
+    outline: none;
+
+    margin: auto;
+}

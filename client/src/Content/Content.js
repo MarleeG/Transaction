@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
-import moment from "moment";
+import Select from "react-select";
 import _ from "lodash";
 
 import Widget from "../UIELements/Widget";
 import Input from "../UIELements/Input";
 import Button from "../UIELements/Button";
-import { getData, updatedData } from "../Data/tools/getData";
+import {
+  getData,
+  updatedData,
+  generateDropdownOptions,
+} from "../Data/tools/getData";
 
 import { randomColorGenerator } from "../UIELements/ui-tools/ui-tools";
 
@@ -20,8 +24,11 @@ import "./Content.css";
 const log = console.log;
 const Content = (props) => {
   const [currentBalance, updateCurrentBalance] = useState(5824.76);
+  const [currentKeyCode, updateCurrentKeyCode] = useState(null);
 
   const [transactions, updateTransactions] = useState([]);
+
+  const [dropdownOptions, updateDropdownOptions] = useState([]);
   const [pageUpdate, handlePageUpdate] = useState(true);
   const [sortByIcon, updateSortByIcon] = useState({
     order: "asc",
@@ -174,13 +181,7 @@ const Content = (props) => {
         src: UpArrow,
         alt: "up-arrow",
       });
-
-      log("sortByLargest ", sortByLargest);
     }
-
-    log(
-      "-----------------------------------------------------------------------------------------"
-    );
 
     handlePageUpdate(false);
   }, [sortAmountIcon, pageUpdate]);
@@ -259,8 +260,90 @@ const Content = (props) => {
     );
   };
 
+  // Inputs
+  const [toAccountInputVal, updateToAccountInput] = useState("");
+
+  const [amountInputVal, updateAmountInput] = useState(0.0);
+
+  const [searchByInputVal, updateSearchByInput] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
+  };
+
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+
+    const isNumber =
+      currentKeyCode === 48 ||
+      currentKeyCode === 49 ||
+      currentKeyCode === 50 ||
+      currentKeyCode === 51 ||
+      currentKeyCode === 52 ||
+      currentKeyCode === 53 ||
+      currentKeyCode === 54 ||
+      currentKeyCode === 55 ||
+      currentKeyCode === 56 ||
+      currentKeyCode === 57;
+
+    const isBackspace = currentKeyCode === 8;
+    // const isDash = currentKeyCode === 173;
+    const isDot = currentKeyCode === 190;
+
+    // name="toAccountInput"
+    // name="amountInput"
+    // name="searchByInput"
+    switch (name) {
+      case "toAccountInput":
+        updateToAccountInput(value);
+        break;
+      case "amountInput":
+        if (isDot && amountInputVal.toString().split("").indexOf(".") === -1) {
+          updateAmountInput(value);
+        } else if (isNumber || isBackspace) {
+          updateAmountInput(value);
+        }
+        break;
+
+      case "searchByInput":
+        updateSearchByInput(value);
+        break;
+
+      default:
+        // adjust this later
+        alert("err");
+    }
+  };
+
+  const keyDown = (e) => {
+    const { key, keyCode } = e;
+
+    // updateCurrentKey(key);
+    updateCurrentKeyCode(keyCode);
+  };
+
+  const generateDropdownOptions = () => {
+    let transactionList = transactions;
+    let options = [];
+    let allNames = [];
+
+    for (let i = 0; i < transactionList.length; i++) {
+      let obj = transactionList[i];
+
+      if (allNames.indexOf(obj.merchant.name) === -1) {
+        options.push({ value: obj.merchant.name, label: obj.merchant.name });
+
+        allNames.push(obj.merchant.name);
+      }
+    }
+
+    console.log(options);
+
+    return options;
+  };
+
+  const handleDropdownSelection = (e) => {
+    console.log(e);
   };
 
   useEffect(() => {
@@ -268,6 +351,10 @@ const Content = (props) => {
       updateTransactions(updatedData());
       handlePageUpdate(false);
     }
+
+    // log()
+
+    updateDropdownOptions(generateDropdownOptions());
   }, [transactions]);
 
   return (
@@ -286,13 +373,29 @@ const Content = (props) => {
             placeholder={`Free Checking(4692) - $${currentBalance}`}
             val={`Free Checking(4692) - $${currentBalance}`}
             disabled
+            showInput={true}
           />
 
           <Input
             label="TO ACCOUNT"
             type="text"
             placeholder="Georgia Power Electric Company"
+            // name="toAccountInput"
+            // val={toAccountInputVal}
+            // handleChange={handleChange}
+            // onKeyDown={keyDown}
+            showInput={false}
+            classes="input__toAccount"
           />
+
+          {dropdownOptions.length > 0 && (
+            <Select
+              options={dropdownOptions}
+              width="50px"
+              menuColor="slate"
+              className="react-select-container"
+            />
+          )}
 
           <Input
             label="AMOUNT"
@@ -304,6 +407,11 @@ const Content = (props) => {
               overflow: "hidden",
               width: "100%",
             }}
+            name="amountInput"
+            val={amountInputVal}
+            handleChange={handleChange}
+            onKeyDown={keyDown}
+            showInput={true}
           />
 
           <Button type="submit" text="Submit" classes="make-transfer-btn" />
@@ -324,6 +432,11 @@ const Content = (props) => {
               placeholder="Search by typing..."
               classes="recent-transaction-wdg__filters-input"
               stylesForInputContainer={{ width: "45%", margin: "10px" }}
+              name="searchByInput"
+              val={searchByInputVal}
+              handleChange={handleChange}
+              onKeyDown={keyDown}
+              showInput={true}
             />
 
             <ul className="recent-transaction-wdg__filters-ul">

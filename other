@@ -1,0 +1,41 @@
+ <div className="make-transfer-wdg__toAccountInput-options-select-container">
+            <div className="make-transfer-wdg__toAccountInput-options-container">
+              {transactions.map((obj, key) => {
+                const {
+                  merchant: { name },
+                } = obj;
+                return (
+                  <div className="make-transfer-wdg__toAccountInput-option">
+                    <input
+                      type="radio"
+                      className="make-transfer-wdg__toAccountInput-radio"
+                      id={key}
+                      name="merchant-name"
+                    />
+                    <label
+                      for={key}
+                      className="make-transfer-wdg__toAccountInput-label"
+                    >
+                      {name}
+                    </label>
+                  </div>
+                );
+              })}
+
+              <div className="make-transfer-wdg__toAccountInput-selected">
+                TO ACCOUNT
+              </div>
+
+              <div className="make-transfer-wdg__toAccountInput-search-box">
+                <Input
+                  // label="TO ACCOUNT"
+                  type="text"
+                  placeholder="Georgia Power Electric Company"
+                  name="toAccountInput"
+                  val={toAccountInputVal}
+                  handleChange={handleChange}
+                  onKeyDown={keyDown}
+                />
+              </div>
+            </div>
+          </div>
