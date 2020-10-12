@@ -14,4 +14,4 @@ app.get("*",(req,res) => {
     res.sendFile(path.join(__dirname, "./client/build/index.html"))
 });
 
-app.listen((err) => console.log(`PORT LISTENING ON ${PORT}`));
+app.listen(PORT, (err) => console.log(`PORT LISTENING ON ${PORT}`));
