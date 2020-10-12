@@ -73,9 +73,6 @@ span.widget-header-icon img {
   display: flex;
   flex-direction: row;
 
-  /* justify-content: center; */
-  /* justify-content: space-evenly; */
-
   justify-content: space-between;
 }
 
@@ -204,3 +201,99 @@ img.recent-transaction-wdg__results-company-img {
   margin-right: 10px;
   font-weight: 800;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* drop down option for input */
+
+/* .make-transfer-wdg__toAccountInput-radio, .make-transfer-wdg__toAccountInput-option{
+    display: none;
+}
+
+.make-transfer-wdg__toAccountInput-option{
+    padding: 12px 24px;
+    cursor: pointer;
+}
+
+.make-transfer-wdg__toAccountInput-label{
+    cursor: pointer;
+}
+
+.make-transfer-wdg__toAccountInput-search-box input{
+    font-size: 16px;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s;
+}
+
+.make-transfer-wdg__toAccountInput-selected{
+    margin: 10px;
+} */
+
+
+
+
+
+/* .make-transfer-wdg__toAccountInput-options-select-container .make-transfer-wdg__toAccountInput-options-container.active {
+    max-height: 240px;
+    opacity: 1;
+    overflow-y: scroll;
+    margin-top: 54px;
+  } */
+  
+
+
+
+
+
+/* .select-box = .make-transfer-wdg__toAccountInput-options-select-container */
+
+/* .option = .make-transfer-wdg__toAccountInput-option */
+
+/* .selected = .make-transfer-wdg__toAccountInput-selected */
+
+
+/* .make-transfer-wdg__toAccountInput-options-select-container .make-transfer-wdg__toAccountInput-options-container.active + .make-transfer-wdg__toAccountInput-selected ::after {
+    transform: rotateX(180deg);
+    top: -6px;
+  } */
+  
+  /* .make-transfer-wdg__toAccountInput-options-select-container .make-transfer-wdg__toAccountInput-options-container::-webkit-scrollbar {
+    width: 8px;
+    background: #0d141f;
+    border-radius: 0 8px 8px 0;
+  } */
+  
+  /* .make-transfer-wdg__toAccountInput-options-select-container .make-transfer-wdg__toAccountInput-options-container::-webkit-scrollbar-thumb {
+    background: #525861;
+    border-radius: 0 8px 8px 0;
+  } */
+  
+  /* .make-transfer-wdg__toAccountInput-options-select-container .make-transfer-wdg__toAccountInput-option,
+  .make-transfer-wdg__toAccountInput-selected  {
+    padding: 12px 24px;
+    cursor: pointer;
+  }
+   */
+  /* .make-transfer-wdg__toAccountInput-options-select-container .make-transfer-wdg__toAccountInput-option:hover {
+    background: #414b57;
+  }
+  
+  .make-transfer-wdg__toAccountInput-options-select-container label {
+    cursor: pointer;
+  }
+  
+  .make-transfer-wdg__toAccountInput-options-select-container .make-transfer-wdg__toAccountInput-option .radio {
+    display: none;
+  } */

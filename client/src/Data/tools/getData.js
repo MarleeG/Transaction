@@ -65,9 +65,10 @@ export const updatedData = () => {
       }
     }
 
-
-    if(typeof obj.transaction.amountCurrency.amount === 'string'){
-        obj.transaction.amountCurrency.amount = parseFloat(obj.transaction.amountCurrency.amount);
+    if (typeof obj.transaction.amountCurrency.amount === "string") {
+      obj.transaction.amountCurrency.amount = parseFloat(
+        obj.transaction.amountCurrency.amount
+      );
     }
 
     date = updateDateInUI(date);
@@ -87,4 +88,23 @@ export const updatedData = () => {
   //   console.log(newData);
 
   return newData;
+};
+
+export const generateDropdownOptions = () => {
+  let initialData = Data.data;
+  let {
+    merchant: { name },
+  } = Data.data;
+  let options = [];
+  let allNames = [];
+
+  for (let i = 0; i < initialData.length; i++) {
+    if (allNames.indexOf(name) === -1) {
+      allNames.push(name);
+      options.push({ name: name, label: name });
+    }
+  }
+
+  console.log(options);
+  return options;
 };
