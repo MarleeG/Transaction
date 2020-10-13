@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Select from "react-select";
-
-// import moment from "moment";
 import _ from "lodash";
 
 import Widget from "../UIELements/Widget";
@@ -653,6 +651,10 @@ const Content = (props) => {
     }
   };
 
+  // const clearSearchByInput = () => {
+  //   updateSearchByInput("")
+  // }
+
   const handleDropdownKeyDown = (e) => {
     log(e.key);
   };
@@ -753,13 +755,20 @@ const Content = (props) => {
             <Input
               type="text"
               placeholder="Search by typing..."
-              classes="recent-transaction-wdg__filters-input"
+              classesForPrependSign="recent-transaction-wdg__filters-prepend-sign"
               stylesForInputContainer={{ width: "45%", margin: "10px" }}
               name="searchByInput"
               val={searchByInputVal}
               handleChange={handleChange}
               onKeyDown={keyDown}
               showInput={true}
+              updateSearchByInput={updateSearchByInput}
+              prependSign="X"
+              stylesForPrependSign={{
+                display: "table",
+                overflow: "hidden",
+                width: "100%",
+              }}
             />
 
             <ul className="recent-transaction-wdg__filters-ul">

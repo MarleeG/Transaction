@@ -33,7 +33,7 @@ const ModalOverlay = (props) => {
               </tr>
               <tr>
                 <td>{account}</td>
-                <td>${amount}</td>
+                <td>${parseFloat(amount).toFixed(2)}</td>
               </tr>
             </tbody>
           </table>

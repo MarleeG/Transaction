@@ -14,31 +14,24 @@ const Input = (props) => {
     classes,
     showInput,
     name,
+    classesForPrependSign,
+    updateSearchByInput,
 
     children,
   } = props;
 
   return (
-    // <Fragment>
-    //   {label && <label>{label}</label>}
-
-    //   {children ? (
-    //     <div className={`input__container ${classes}`}>
-    //         {children}
-    //     </div>
-    //   ) : (
-
-    //   )}
-    // </Fragment>
-
     <div
       className="input__container"
       style={stylesForInputContainer && stylesForInputContainer}
     >
       {label && <label>{label}</label>}
       {prependSign ? (
-        <span style={stylesForPrependSign && stylesForPrependSign}>
-          <span className="input__container-prepend">{prependSign}</span>
+        <span style={stylesForPrependSign && stylesForPrependSign} classes={classes && classes}>
+
+         
+
+          {updateSearchByInput ? <span className={`input__container-prepend ${classesForPrependSign && classesForPrependSign}`} onClick={() => updateSearchByInput("")}>{prependSign}</span> : <span className={`input__container-prepend ${classesForPrependSign && classesForPrependSign}`}>{prependSign}</span> }
 
           <input
             type={type || "text"}

@@ -104,6 +104,7 @@ li.recent-transaction-wdg__filters-li {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .recent-transaction-wdg__filters-li > span {
