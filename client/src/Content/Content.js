@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Select from "react-select";
 
+// import moment from "moment";
 import _ from "lodash";
 
 import Widget from "../UIELements/Widget";
@@ -12,9 +13,8 @@ import {
   getData,
   updatedData,
   generateDropdownOptions,
+  addData,
 } from "../Data/tools/getData";
-
-// import { randomColorGenerator } from "../UIELements/ui-tools/ui-tools";
 
 // Images
 import TransferIcon from "../UIELements/assets/icons/arrows.png";
@@ -42,6 +42,7 @@ const Content = (props) => {
 
   const [pageUpdate, handlePageUpdate] = useState(true);
 
+  const [selectedSort, updateSelectedSort] = useState("");
   const [sortByIcon, updateSortByIcon] = useState({
     order: "asc",
     src: "",
@@ -60,230 +61,238 @@ const Content = (props) => {
     alt: "",
   });
 
-  const sortByDate = useCallback(() => {
-    log("Sorting by Date...");
+  const sortByDate = useCallback(
+    (updated) => {
+      log("Sorting by Date...");
+      log(transactions);
 
-    const sortedDatesEarliest = _.orderBy(
-      transactions,
-      ["dates.valueDate"],
-      ["asc"]
-    );
+      const data = updated || transactions;
+      const sortedDatesEarliest = _.orderBy(data, ["dates.valueDate"], ["asc"]);
 
-    const sortedDatesRecent = _.orderBy(
-      transactions,
-      ["dates.valueDate"],
-      ["desc"]
-    );
+      const sortedDatesRecent = _.orderBy(data, ["dates.valueDate"], ["desc"]);
 
-    if (sortByIcon.order === "asc") {
-      log(sortByIcon.order);
-      updateTransactions(sortedDatesEarliest);
-      handlePageUpdate(true);
+      if (sortByIcon.order === "asc") {
+        log(sortByIcon.order);
+        updateTransactions(sortedDatesEarliest);
+        handlePageUpdate(true);
 
-      updateSortByIcon({
-        ...sortByIcon,
-        order: "dsc",
-        src: DownArrow,
-        alt: "down-arrow",
-      });
+        updateSortByIcon({
+          ...sortByIcon,
+          order: "dsc",
+          src: DownArrow,
+          alt: "down-arrow",
+        });
 
-      // others
-      updateSortAmountIcon({
-        ...sortAmountIcon,
-        order: "asc",
-        src: UpArrow,
-        alt: "up-arrow",
-      });
-      updateSortBeneIcon({
-        ...sortBeneIcon,
-        order: "asc",
-        src: UpArrow,
-        alt: "up-arrow",
-      });
+        // others
+        updateSortAmountIcon({
+          ...sortAmountIcon,
+          order: "asc",
+          src: UpArrow,
+          alt: "up-arrow",
+        });
+        updateSortBeneIcon({
+          ...sortBeneIcon,
+          order: "asc",
+          src: UpArrow,
+          alt: "up-arrow",
+        });
 
-      log("sortedDatesEarliest ", sortedDatesEarliest);
-    } else if (sortByIcon.order === "dsc") {
-      log(sortByIcon.order);
-      updateTransactions(sortedDatesRecent);
-      handlePageUpdate(true);
+        log("sortedDatesEarliest ", sortedDatesEarliest);
+      } else if (sortByIcon.order === "dsc") {
+        log(sortByIcon.order);
+        updateTransactions(sortedDatesRecent);
+        handlePageUpdate(true);
 
-      updateSortByIcon({
-        ...sortByIcon,
-        order: "asc",
-        src: UpArrow,
-        alt: "up-arrow",
-      });
+        updateSortByIcon({
+          ...sortByIcon,
+          order: "asc",
+          src: UpArrow,
+          alt: "up-arrow",
+        });
 
-      // others
-      updateSortAmountIcon({
-        ...sortAmountIcon,
-        order: "dsc",
-        src: DownArrow,
-        alt: "down-arrow",
-      });
-      updateSortBeneIcon({
-        ...sortBeneIcon,
-        order: "dsc",
-        src: DownArrow,
-        alt: "down-arrow",
-      });
+        // others
+        updateSortAmountIcon({
+          ...sortAmountIcon,
+          order: "dsc",
+          src: DownArrow,
+          alt: "down-arrow",
+        });
+        updateSortBeneIcon({
+          ...sortBeneIcon,
+          order: "dsc",
+          src: DownArrow,
+          alt: "down-arrow",
+        });
 
-      log("sortedDatesRecent ", sortedDatesRecent);
-    }
+        log("sortedDatesRecent ", sortedDatesRecent);
+      }
 
-    log(
-      "-----------------------------------------------------------------------------------------"
-    );
+      log(
+        "-----------------------------------------------------------------------------------------"
+      );
 
-    handlePageUpdate(false);
+      handlePageUpdate(false);
 
-    // pageUpdate, transactions, sortByIcon
-  }, [sortByIcon, pageUpdate]);
+      // pageUpdate, transactions, sortByIcon
+      // sortByIcon, pageUpdate, 
+    },
+    [transactions]
+  );
 
-  const sortByBeneficiary = useCallback(() => {
-    log("Sorting by Beneficiary...");
+  const sortByBeneficiary = useCallback(
+    (updated) => {
+      log("Sorting by Beneficiary...");
 
-    const sortedByOrder = _.orderBy(transactions, ["merchant.name"], ["asc"]);
+      const data = updated || transactions;
+      const sortedByOrder = _.orderBy(data, ["merchant.name"], ["asc"]);
 
-    const sortedByReverseOrder = _.orderBy(
-      transactions,
-      ["merchant.name"],
-      ["desc"]
-    );
+      const sortedByReverseOrder = _.orderBy(data, ["merchant.name"], ["desc"]);
 
-    if (sortBeneIcon.order === "asc") {
-      updateTransactions(sortedByOrder);
-      handlePageUpdate(true);
+      if (sortBeneIcon.order === "asc") {
+        updateTransactions(sortedByOrder);
+        handlePageUpdate(true);
 
-      updateSortBeneIcon({
-        ...sortBeneIcon,
-        order: "dsc",
-        src: DownArrow,
-        alt: "down-arrow",
-      });
+        updateSortBeneIcon({
+          ...sortBeneIcon,
+          order: "dsc",
+          src: DownArrow,
+          alt: "down-arrow",
+        });
 
-      // others
-      updateSortByIcon({
-        ...sortByIcon,
-        order: "asc",
-        src: UpArrow,
-        alt: "up-arrow",
-      });
+        // others
+        updateSortByIcon({
+          ...sortByIcon,
+          order: "asc",
+          src: UpArrow,
+          alt: "up-arrow",
+        });
 
-      updateSortAmountIcon({
-        ...sortAmountIcon,
-        order: "asc",
-        src: UpArrow,
-        alt: "up-arrow",
-      });
-    } else if (sortBeneIcon.order == "dsc") {
-      log(sortBeneIcon.order);
-      updateTransactions(sortedByReverseOrder);
-      handlePageUpdate(true);
+        updateSortAmountIcon({
+          ...sortAmountIcon,
+          order: "asc",
+          src: UpArrow,
+          alt: "up-arrow",
+        });
+      } else if (sortBeneIcon.order == "dsc") {
+        log(sortBeneIcon.order);
+        updateTransactions(sortedByReverseOrder);
+        handlePageUpdate(true);
 
-      updateSortBeneIcon({
-        ...sortBeneIcon,
-        order: "asc",
-        src: UpArrow,
-        alt: "up-arrow",
-      });
+        updateSortBeneIcon({
+          ...sortBeneIcon,
+          order: "asc",
+          src: UpArrow,
+          alt: "up-arrow",
+        });
 
-      // others
-      updateSortByIcon({
-        ...sortByIcon,
-        order: "dsc",
-        src: DownArrow,
-        alt: "down-arrow",
-      });
+        // others
+        updateSortByIcon({
+          ...sortByIcon,
+          order: "dsc",
+          src: DownArrow,
+          alt: "down-arrow",
+        });
 
-      updateSortAmountIcon({
-        ...sortAmountIcon,
-        order: "dsc",
-        src: DownArrow,
-        alt: "down-arrow",
-      });
-    }
+        updateSortAmountIcon({
+          ...sortAmountIcon,
+          order: "dsc",
+          src: DownArrow,
+          alt: "down-arrow",
+        });
+      }
 
-    handlePageUpdate(false);
-  }, [sortBeneIcon, pageUpdate]);
+      handlePageUpdate(false);
+    },
 
-  const sortByAmount = useCallback(() => {
-    log("Sorting by Amount...");
+    // sortBeneIcon, pageUpdate
+    [transactions]
+  );
 
-    log("Sorting by Date...");
+  const sortByAmount = useCallback(
+    (updated) => {
+      log("Sorting by Amount...");
 
-    const sortBySmallest = _.orderBy(
-      transactions,
-      ["transaction.amountCurrency.amount"],
-      ["asc"]
-    );
+      log("Sorting by Date...");
 
-    const sortByLargest = _.orderBy(
-      transactions,
-      ["transaction.amountCurrency.amount"],
-      ["desc"]
-    );
+      const data = updated || transactions;
+      const sortBySmallest = _.orderBy(
+        data,
+        ["transaction.amountCurrency.amount"],
+        ["asc"]
+      );
 
-    if (sortAmountIcon.order === "asc") {
-      log(sortAmountIcon.order);
-      updateTransactions(sortBySmallest);
-      handlePageUpdate(true);
+      const sortByLargest = _.orderBy(
+        data,
+        ["transaction.amountCurrency.amount"],
+        ["desc"]
+      );
 
-      updateSortAmountIcon({
-        ...sortAmountIcon,
-        order: "dsc",
-        src: DownArrow,
-        alt: "down-arrow",
-      });
+      if (sortAmountIcon.order === "asc") {
+        log(sortAmountIcon.order);
+        updateTransactions(sortBySmallest);
+        handlePageUpdate(true);
 
-      // others
-      updateSortByIcon({
-        ...sortByIcon,
-        order: "asc",
-        src: UpArrow,
-        alt: "up-arrow",
-      });
+        updateSortAmountIcon({
+          ...sortAmountIcon,
+          order: "dsc",
+          src: DownArrow,
+          alt: "down-arrow",
+        });
 
-      updateSortBeneIcon({
-        ...sortBeneIcon,
-        order: "asc",
-        src: UpArrow,
-        alt: "up-arrow",
-      });
+        // others
+        updateSortByIcon({
+          ...sortByIcon,
+          order: "asc",
+          src: UpArrow,
+          alt: "up-arrow",
+        });
 
-      log("sortBySmallest ", sortBySmallest);
-    } else if (sortAmountIcon.order === "dsc") {
-      log(sortAmountIcon.order);
-      updateTransactions(sortByLargest);
-      handlePageUpdate(true);
+        updateSortBeneIcon({
+          ...sortBeneIcon,
+          order: "asc",
+          src: UpArrow,
+          alt: "up-arrow",
+        });
 
-      updateSortAmountIcon({
-        ...sortAmountIcon,
-        order: "asc",
-        src: UpArrow,
-        alt: "up-arrow",
-      });
+        log("sortBySmallest ", sortBySmallest);
+      } else if (sortAmountIcon.order === "dsc") {
+        log(sortAmountIcon.order);
+        updateTransactions(sortByLargest);
+        handlePageUpdate(true);
 
-      // others
-      updateSortByIcon({
-        ...sortByIcon,
-        order: "dsc",
-        src: DownArrow,
-        alt: "down-arrow",
-      });
+        updateSortAmountIcon({
+          ...sortAmountIcon,
+          order: "asc",
+          src: UpArrow,
+          alt: "up-arrow",
+        });
 
-      updateSortBeneIcon({
-        ...sortBeneIcon,
-        order: "dsc",
-        src: DownArrow,
-        alt: "down-arrow",
-      });
-    }
+        // others
+        updateSortByIcon({
+          ...sortByIcon,
+          order: "dsc",
+          src: DownArrow,
+          alt: "down-arrow",
+        });
 
-    handlePageUpdate(false);
-  }, [sortAmountIcon, pageUpdate]);
+        updateSortBeneIcon({
+          ...sortBeneIcon,
+          order: "dsc",
+          src: DownArrow,
+          alt: "down-arrow",
+        });
+      }
+
+      handlePageUpdate(false);
+    },
+
+    // sortAmountIcon, pageUpdate
+    [transactions]
+  );
 
   const sortHandler = (selected) => {
+    updateSelectedSort(selected);
+
     switch (selected) {
       case "DATE":
         sortByDate();
@@ -300,6 +309,8 @@ const Content = (props) => {
   };
 
   const recentTransactionsUL = (trans) => {
+    // log('TRANS')
+    // log(trans)
     return (
       <ul className="recent-transaction-wdg__results-ul">
         {trans.length > 0 &&
@@ -315,6 +326,8 @@ const Content = (props) => {
               imgData: { src, alt },
             } = obj;
 
+            // log(obj)
+
             return (
               <li
                 key={key}
@@ -328,11 +341,13 @@ const Content = (props) => {
                     {userDate}
                   </p>
                   <div className="recent-transaction-wdg__results-li-row-one-img-wrapper">
-                    <img
-                      className="recent-transaction-wdg__results-company-img"
-                      src={src}
-                      alt={alt}
-                    />
+                    {src && alt && (
+                      <img
+                        className="recent-transaction-wdg__results-company-img"
+                        src={src}
+                        alt={alt}
+                      />
+                    )}
                   </div>
 
                   <div className="recent-transaction-wdg__results-li-row-one-transaction-info-wrapper">
@@ -348,7 +363,7 @@ const Content = (props) => {
                 </div>
 
                 <div className="recent-transaction-wdg__results-li-row-two">
-                  <p>-${amount}</p>
+                  <p>-${parseFloat(amount).toFixed(2)}</p>
                 </div>
               </li>
             );
@@ -360,20 +375,111 @@ const Content = (props) => {
   // dropdown
   const [toAccountDropdownVal, updateToAccountDropdown] = useState("");
 
-  // const [recentTransactionDropdown, updateRecentTransactionDropdown] = useState(
-  //   ""
-  // );
-
   // Inputs
   const [amountInputVal, updateAmountInput] = useState(0);
 
   const [searchByInputVal, updateSearchByInput] = useState("");
 
+  const handleAddData = () => {
+    log("ADD DATA");
+
+    const {
+      categoryCode,
+      transaction: {
+        amountCurrency: { currencyCode },
+        type,
+        creditDebitIndicator,
+      },
+      imgData: { src, alt },
+
+      merchant: { name, accountNumber },
+    } = transactions.find((obj) => obj.merchant.name === toAccountDropdownVal);
+
+    const obj = transactions.find(
+      (obj) => obj.merchant.name === toAccountDropdownVal
+    );
+
+    const currentDate = Date.parse(new Date());
+
+    let value = {
+      categoryCode: categoryCode,
+      dates: {
+        valueDate: currentDate,
+      },
+      imgData: {
+        name: obj.imgData.name,
+        src,
+        alt,
+      },
+      transaction: {
+        amountCurrency: {
+          amount: parseFloat(parseFloat(amountInputVal).toFixed(2)),
+          currencyCode: currencyCode,
+        },
+        type: type,
+        creditDebitIndicator: creditDebitIndicator,
+      },
+
+      merchant: {
+        name: name,
+        accountNumber: accountNumber,
+      },
+    };
+
+    //update
+
+    addData(value);
+    // let upd = updatedData();
+
+    // const sortedDatesEarliest = _.orderBy(updatedData(), ["dates.valueDate"], ["asc"]);
+
+      const sortedDatesRecent = _.orderBy(updatedData(), ["dates.valueDate"], ["desc"]);
+
+    updateTransactions(sortedDatesRecent);
+
+    // log(upd);
+    // updateTransactions();
+
+    // if (selectedSort === "DATE") {
+    //   // sortHandler("DATE");
+    //   sortByDate(updatedData());
+    // } else if (selectedSort === "BENEFICIARY") {
+    //   sortByBeneficiary(updatedData());
+    // } else if (selectedSort === "AMOUNT") {
+    //   sortByAmount(updatedData());
+    // }
+
+    // sortHandler("DATE");
+
+    // updateSortByIcon({
+    //   ...sortByIcon,
+    //   order: "dsc",
+    //   src: DownArrow,
+    //   alt: "down-arrow",
+    // });
+
+    // updateSortByIcon({
+    //   ...sortByIcon,
+    //   order: "asc",
+    //   src: UpArrow,
+    //   alt: "up-arrow",
+    // });
+
+    // sortByDate();
+
+    
+
+    // handlePageUpdate(true);
+  };
+
   const modalHandler = (bool) => {
     if (bool) {
-
       if (!modal.show) {
-        if (toAccountDropdownVal !== "" && amountInputVal > 0) {
+        if (
+          toAccountDropdownVal !== "" &&
+          amountInputVal > 0 &&
+          toAccountDropdownVal !== null
+        ) {
           handleModal({
             ...modal,
             show: true,
@@ -381,10 +487,13 @@ const Content = (props) => {
             btnText: "Transfer",
             account: toAccountDropdownVal,
             amount: parseFloat(amountInputVal),
-            reset: true
+            reset: true,
           });
         } else {
-          if ((toAccountDropdownVal === "" && amountInputVal === 0) || toAccountDropdownVal === null) {
+          if (
+            (toAccountDropdownVal === "" && amountInputVal === 0) ||
+            toAccountDropdownVal === null
+          ) {
             // if both fields are empty
             handleModal({
               ...modal,
@@ -423,19 +532,21 @@ const Content = (props) => {
 
       // subtract current balance from from what the user selected
 
-      log(`reset: ${modal.reset}`)
+      // log(`reset: ${modal.reset}`)
 
       if (modal.reset) {
         updateAmountInput(0);
         updateToAccountDropdown(null);
       }
-
-      // handleDropdownChange(null);
     }
   };
 
   const handleCloseModal = () => {
     modalHandler(false);
+
+    if (modal.reset) {
+      handleAddData();
+    }
   };
 
   const handleSubmit = (e) => {
@@ -550,6 +661,7 @@ const Content = (props) => {
     if (pageUpdate) {
       updateTransactions(updatedData());
       handlePageUpdate(false);
+
     }
 
     updateDropdownOptions(generateDropdownOptions());
@@ -557,7 +669,7 @@ const Content = (props) => {
 
   return (
     <div className="content__container">
-      <Modal show={modal.show} data={modal} closeModal={handleCloseModal}/>
+      <Modal show={modal.show} data={modal} closeModal={handleCloseModal} />
       <Widget
         header="Make a Transfer"
         width="20vw"
@@ -620,7 +732,12 @@ const Content = (props) => {
             showInput={true}
           />
 
-          <Button type="submit" text="Submit" classes="make-transfer-btn" disabled={modal.show}/>
+          <Button
+            type="submit"
+            text="Submit"
+            classes="make-transfer-btn"
+            disabled={modal.show}
+          />
         </form>
       </Widget>
 

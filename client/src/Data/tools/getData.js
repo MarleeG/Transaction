@@ -108,3 +108,15 @@ export const generateDropdownOptions = () => {
   console.log(options);
   return options;
 };
+
+export const addData = (obj) => {
+  // let currentData = Data.data;
+  // currentData.unshift(obj);
+  Data.data.push(obj)
+  
+  // return currentData;
+
+  // console.log(currentData);
+
+  // updatedData();
+}
