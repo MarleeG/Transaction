@@ -8,6 +8,8 @@
     padding: 10px;
     font-size: large;
     border-radius: 4px;
+
+    cursor: pointer;
 }
 
 .make-transfer-btn:disabled{

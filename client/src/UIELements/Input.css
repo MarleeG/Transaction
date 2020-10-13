@@ -9,16 +9,16 @@ label {
   align-self: center;
 }
 
-input{
-    border: none;
-    border-bottom: 2px solid #dfdcd9;
-    width: 95%;
-    height: 4vh;
-    align-self: center;
-    outline: none;
-  }
+input {
+  border: none;
+  border-bottom: 2px solid #dfdcd9;
+  width: 95%;
+  height: 4vh;
+  align-self: center;
+  outline: none;
+}
 
-.input__container-prepend{
+.input__container-prepend {
   color: #a3a0a0;
   padding: 0.5em;
   padding-right: 0;
@@ -27,19 +27,30 @@ input{
   vertical-align: middle;
 }
 
-input[type=text]:focus {
-    border-bottom: 3px solid #555;
+input[type="text"]:focus {
+  border-bottom: 3px solid #555;
 }
 
-
-input.input__toAccount{
-    margin: 10px
+input.input__toAccount {
+  margin: 10px;
 }
 
-.make-transfer-wdg__react-select-container{
-    width: 95%;
-    align-self: center;
-    outline: none;
+.make-transfer-wdg__react-select-container {
+  width: 95%;
+  align-self: center;
+  outline: none;
 
-    margin: auto;
+  margin: auto;
+}
+
+span.recent-transaction-wdg__filters-prepend-sign:hover {
+  color: black;
+  cursor: pointer;
+}
+
+span.recent-transaction-wdg__filters-prepend-sign:active {
+  /* margin-top: 14px; */
+
+  padding-top: 10px;
+  
 }
