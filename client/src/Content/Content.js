@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Select from "react-select";
-import Async, { makeAsyncSelect } from "react-select/async";
 
 import _ from "lodash";
 
 import Widget from "../UIELements/Widget";
 import Input from "../UIELements/Input";
 import Button from "../UIELements/Button";
+import Modal from "../UIELements/Modal";
+
 import {
   getData,
   updatedData,
   generateDropdownOptions,
 } from "../Data/tools/getData";
 
-import { randomColorGenerator } from "../UIELements/ui-tools/ui-tools";
+// import { randomColorGenerator } from "../UIELements/ui-tools/ui-tools";
 
+// Images
 import TransferIcon from "../UIELements/assets/icons/arrows.png";
 import TransactionIcon from "../UIELements/assets/icons/briefcase.png";
 
@@ -31,7 +33,15 @@ const Content = (props) => {
   const [transactions, updateTransactions] = useState([]);
 
   const [dropdownOptions, updateDropdownOptions] = useState([]);
+
+  const [modal, handleModal] = useState({
+    show: false,
+    header: "",
+    btnText: "",
+  });
+
   const [pageUpdate, handlePageUpdate] = useState(true);
+
   const [sortByIcon, updateSortByIcon] = useState({
     order: "asc",
     src: "",
@@ -347,17 +357,86 @@ const Content = (props) => {
     );
   };
 
-  // dropdowns
+  // dropdown
   const [toAccountDropdownVal, updateToAccountDropdown] = useState("");
 
-  const [recentTransactionDropdown, updateRecentTransactionDropdown] = useState(
-    ""
-  );
+  // const [recentTransactionDropdown, updateRecentTransactionDropdown] = useState(
+  //   ""
+  // );
 
   // Inputs
-  const [amountInputVal, updateAmountInput] = useState(0.0);
+  const [amountInputVal, updateAmountInput] = useState(0);
 
   const [searchByInputVal, updateSearchByInput] = useState("");
+
+  const modalHandler = (bool) => {
+    if (bool) {
+
+      if (!modal.show) {
+        if (toAccountDropdownVal !== "" && amountInputVal > 0) {
+          handleModal({
+            ...modal,
+            show: true,
+            header: "Confirm Transfer",
+            btnText: "Transfer",
+            account: toAccountDropdownVal,
+            amount: parseFloat(amountInputVal),
+            reset: true
+          });
+        } else {
+          if ((toAccountDropdownVal === "" && amountInputVal === 0) || toAccountDropdownVal === null) {
+            // if both fields are empty
+            handleModal({
+              ...modal,
+              show: true,
+              header: "Error",
+              btnText: "Close",
+              msg:
+                "Please select an account from the dropdown and enter an amount.",
+              reset: false,
+            });
+          } else if (toAccountDropdownVal === "" && amountInputVal > 0) {
+            // if dropdown value is empty and amountInputVal has a value larger than 0
+            handleModal({
+              ...modal,
+              show: true,
+              header: "Error",
+              btnText: "Close",
+              msg: "Please select an account from the dropdown",
+              reset: false,
+            });
+          } else if (toAccountDropdownVal !== "" && amountInputVal === 0) {
+            // if dropdown has a value and amountInputVal value is 0
+            handleModal({
+              ...modal,
+              show: true,
+              header: "Error",
+              btnText: "Close",
+              msg: "Please enter an amount.",
+              reset: false,
+            });
+          }
+        }
+      }
+    } else {
+      handleModal({ ...modal, show: false });
+
+      // subtract current balance from from what the user selected
+
+      log(`reset: ${modal.reset}`)
+
+      if (modal.reset) {
+        updateAmountInput(0);
+        updateToAccountDropdown(null);
+      }
+
+      // handleDropdownChange(null);
+    }
+  };
+
+  const handleCloseModal = () => {
+    modalHandler(false);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -366,7 +445,7 @@ const Content = (props) => {
     log(`to account: ${toAccountDropdownVal}`);
     log(`amount: ${amountInputVal}`);
 
-
+    modalHandler(true);
   };
 
   const handleChange = (e) => {
@@ -451,18 +530,21 @@ const Content = (props) => {
       case "toAccountDropDown":
         updateToAccountDropdown(value);
         break;
-
-      // case ''
-      // break;
-
       default:
-        alert("err in dropdown selection");
+        handleModal({
+          ...modal,
+          show: true,
+          header: "Error",
+          btnText: "Close",
+          msg: "Please select a valid option.",
+          reset: true,
+        });
     }
   };
 
-  const handleDropdownKeyDown = e => {
+  const handleDropdownKeyDown = (e) => {
     log(e.key);
-  }
+  };
 
   useEffect(() => {
     if (pageUpdate) {
@@ -475,6 +557,7 @@ const Content = (props) => {
 
   return (
     <div className="content__container">
+      <Modal show={modal.show} data={modal} closeModal={handleCloseModal}/>
       <Widget
         header="Make a Transfer"
         width="20vw"
@@ -507,23 +590,17 @@ const Content = (props) => {
           {dropdownOptions.length > 0 && (
             <Select
               options={dropdownOptions}
+              value={dropdownOptions.filter(
+                ({ value }) => value === toAccountDropdownVal
+              )}
               width="50px"
+              // value={toAccountDropdownVal}
               menuColor="slate"
               className="make-transfer-wdg__react-select-container"
               onChange={(e) => handleDropdownChange(e, "toAccountDropDown")}
 
               // onKeyDown={handleDropdownKeyDown}
             />
-
-            // <Async
-            //   className="make-transfer-wdg__react-select-container"
-            //   options={dropdownOptions}
-            //   cacheOptions
-            //   defaultOptions
-            //   placeholder="Start typing to select restaurant"
-            //   // loadOptions={promiseOptions}
-            //   onChange={(e) => handleDropdownChange(e, "toAccountDropDown")}
-            // />
           )}
 
           <Input
@@ -543,7 +620,7 @@ const Content = (props) => {
             showInput={true}
           />
 
-          <Button type="submit" text="Submit" classes="make-transfer-btn" />
+          <Button type="submit" text="Submit" classes="make-transfer-btn" disabled={modal.show}/>
         </form>
       </Widget>
 

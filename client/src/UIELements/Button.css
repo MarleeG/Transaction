@@ -9,3 +9,33 @@
     font-size: large;
     border-radius: 4px;
 }
+
+.make-transfer-btn:disabled{
+    background-color:  #dfdcd9;
+}
+
+.modal__body{
+    padding: 10px;
+}
+
+.modal__make-transfer-modal-btn{
+    margin: 10px;
+    background-color: #ee7033;
+    border: none;
+    color: #fff;
+    width: 30%;
+    padding: 10px;
+    font-size: large;
+    border-radius: 4px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.modal__make-transfer-modal-btn:focus, .make-transfer-btn:focus{
+    outline: none;
+}
+
+.modal__make-transfer-modal-btn:active, .make-transfer-btn:active{
+    margin-top: 12px;
+}

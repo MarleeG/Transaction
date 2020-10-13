@@ -1,13 +1,23 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 import "./Button.css";
 
 const Button = (props) => {
-  const { type, text, classes } = props;
+  const { type, text, classes, disabled, onClick } = props;
+  console.log(`button disabled: ${disabled}`)
   return (
-    <button type={type || "text"} className={classes}>
-      {text}
-    </button>
+    <Fragment>
+      {onClick ? (
+        <button type={type || "text"} className={classes} 
+        onClick={onClick}>
+          {text}
+        </button>
+      ) : (
+        <button type={type || "text"} className={classes} disabled={disabled && disabled}>
+          {text}
+        </button>
+      )}
+    </Fragment>
   );
 };
 

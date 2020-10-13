@@ -1,0 +1,57 @@
+.modal__container {
+  background-color: #fff;
+  border-radius: 5px;
+  position: absolute;
+  width: 40%;
+  height: 37%;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  z-index: 200;
+}
+
+.modal__header {
+  background: #ee7033;
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 10px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+.modal__message{
+    text-align: center;
+    font-size: 25px;
+}
+
+table.modal__table {
+  border: 2px solid #dfdcd9;
+  border-radius: 5px;
+  margin: auto;
+  height: 50%;
+  width: 100%;
+}
+
+table.modal__table th {
+  font-size: 20px;
+  text-align: left;
+  padding-bottom: 30px;
+
+  border-bottom: 2px solid #dfdcd9;
+
+  background: #F7F6F5;
+}
+
+table.modal__table > th:nth-child(1) {
+  border-left: 2px solid #dfdcd9;
+}
+
+table.modal__table td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: #F7F6F5;
+}
