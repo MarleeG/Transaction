@@ -1,12 +1,6 @@
 /* default */
 .widget__container {
   background: #fff;
-
-  /* border-left: 1px solid#dfdcd9;
-  border-right: 1px solid#dfdcd9;
-  border-bottom: 1px solid#dfdcd9;
-  border-top: none; */
-
   margin: 10px;
   border-radius: 2px;
 }
@@ -44,20 +38,13 @@ span.widget-header-icon img {
   width: 2.5vw;
 }
 
-.recent-transaction-wdg {
-  /* position: relative; */
-  /* display:flex; */
-}
-
 /* Make transfer widget */
 .make-transfer-wdg {
   height: 45vh;
 }
 
 /* Recent transaction widget */
-
 .recent-transaction-wdg__wrapper {
-  border: 1px dotted blue;
   height: 87%;
   padding-left: 5px;
   padding-right: 5px;
@@ -68,8 +55,6 @@ span.widget-header-icon img {
 /* filters section */
 .recent-transaction-wdg__filters {
   height: 12%;
-  border: 2px dotted greenyellow;
-
   display: flex;
   flex-direction: row;
 
@@ -129,7 +114,6 @@ li.recent-transaction-wdg__filters-li:hover {
 /* results section  */
 .recent-transaction-wdg__results {
   height: auto;
-  border: 2px dotted rgb(255, 47, 168);
 }
 
 ul.recent-transaction-wdg__results-ul {
@@ -151,7 +135,6 @@ li.recent-transaction-wdg__results-li {
 
 .recent-transaction-wdg__results-li-row-one {
   width: 75%;
-  border: 2px dotted blue;
   display: flex;
   flex-direction: row;
 }
@@ -188,10 +171,7 @@ img.recent-transaction-wdg__results-company-img {
   display: flex;
   justify-content: center;
   flex-direction: column;
-
-  border: 2px dotted red;
   width: 25%;
-
   position: relative;
 }
 
@@ -202,99 +182,3 @@ img.recent-transaction-wdg__results-company-img {
   margin-right: 10px;
   font-weight: 800;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* drop down option for input */
-
-/* .make-transfer-wdg__toAccountInput-radio, .make-transfer-wdg__toAccountInput-option{
-    display: none;
-}
-
-.make-transfer-wdg__toAccountInput-option{
-    padding: 12px 24px;
-    cursor: pointer;
-}
-
-.make-transfer-wdg__toAccountInput-label{
-    cursor: pointer;
-}
-
-.make-transfer-wdg__toAccountInput-search-box input{
-    font-size: 16px;
-    z-index: 100;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.4s;
-}
-
-.make-transfer-wdg__toAccountInput-selected{
-    margin: 10px;
-} */
-
-
-
-
-
-/* .make-transfer-wdg__toAccountInput-options-select-container .make-transfer-wdg__toAccountInput-options-container.active {
-    max-height: 240px;
-    opacity: 1;
-    overflow-y: scroll;
-    margin-top: 54px;
-  } */
-  
-
-
-
-
-
-/* .select-box = .make-transfer-wdg__toAccountInput-options-select-container */
-
-/* .option = .make-transfer-wdg__toAccountInput-option */
-
-/* .selected = .make-transfer-wdg__toAccountInput-selected */
-
-
-/* .make-transfer-wdg__toAccountInput-options-select-container .make-transfer-wdg__toAccountInput-options-container.active + .make-transfer-wdg__toAccountInput-selected ::after {
-    transform: rotateX(180deg);
-    top: -6px;
-  } */
-  
-  /* .make-transfer-wdg__toAccountInput-options-select-container .make-transfer-wdg__toAccountInput-options-container::-webkit-scrollbar {
-    width: 8px;
-    background: #0d141f;
-    border-radius: 0 8px 8px 0;
-  } */
-  
-  /* .make-transfer-wdg__toAccountInput-options-select-container .make-transfer-wdg__toAccountInput-options-container::-webkit-scrollbar-thumb {
-    background: #525861;
-    border-radius: 0 8px 8px 0;
-  } */
-  
-  /* .make-transfer-wdg__toAccountInput-options-select-container .make-transfer-wdg__toAccountInput-option,
-  .make-transfer-wdg__toAccountInput-selected  {
-    padding: 12px 24px;
-    cursor: pointer;
-  }
-   */
-  /* .make-transfer-wdg__toAccountInput-options-select-container .make-transfer-wdg__toAccountInput-option:hover {
-    background: #414b57;
-  }
-  
-  .make-transfer-wdg__toAccountInput-options-select-container label {
-    cursor: pointer;
-  }
-  
-  .make-transfer-wdg__toAccountInput-options-select-container .make-transfer-wdg__toAccountInput-option .radio {
-    display: none;
-  } */

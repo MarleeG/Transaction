@@ -16,8 +16,6 @@ const Input = (props) => {
     name,
     classesForPrependSign,
     updateSearchByInput,
-
-    children,
   } = props;
 
   return (
@@ -28,9 +26,6 @@ const Input = (props) => {
       {label && <label>{label}</label>}
       {prependSign ? (
         <span style={stylesForPrependSign && stylesForPrependSign} classes={classes && classes}>
-
-         
-
           {updateSearchByInput ? <span className={`input__container-prepend ${classesForPrependSign && classesForPrependSign}`} onClick={() => updateSearchByInput("")}>{prependSign}</span> : <span className={`input__container-prepend ${classesForPrependSign && classesForPrependSign}`}>{prependSign}</span> }
 
           <input

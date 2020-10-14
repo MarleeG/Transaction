@@ -4,7 +4,6 @@ import "./Button.css";
 
 const Button = (props) => {
   const { type, text, classes, disabled, onClick } = props;
-  console.log(`button disabled: ${disabled}`)
   return (
     <Fragment>
       {onClick ? (

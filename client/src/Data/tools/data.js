@@ -11,9 +11,6 @@ import BackbaseIMG from "../../UIELements/assets/icons/backbase.png";
 import AmazonIMG from "../../UIELements/assets/icons/amazon-online-store.png";
 import SEIMG from "../../UIELements/assets/icons/7-eleven.png";
 
-// const log = console.log;
-export const getData = () => Data;
-
 const updateDateInUI = (date) => {
   let dateCondition = typeof date === "string";
 
@@ -85,38 +82,9 @@ export const updatedData = () => {
     newData.push(obj);
   }
 
-  //   console.log(newData);
-
   return newData;
 };
 
-export const generateDropdownOptions = () => {
-  let initialData = Data.data;
-  let {
-    merchant: { name },
-  } = Data.data;
-  let options = [];
-  let allNames = [];
-
-  for (let i = 0; i < initialData.length; i++) {
-    if (allNames.indexOf(name) === -1) {
-      allNames.push(name);
-      options.push({ name: name, label: name });
-    }
-  }
-
-  console.log(options);
-  return options;
-};
-
 export const addData = (obj) => {
-  // let currentData = Data.data;
-  // currentData.unshift(obj);
   Data.data.push(obj)
-  
-  // return currentData;
-
-  // console.log(currentData);
-
-  // updatedData();
 }

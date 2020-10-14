@@ -2,15 +2,12 @@ import React from "react";
 
 import "./Widget.css";
 
-// const log = console.log;
 const Widget = (props) => {
   const { width, header, classes, headerIcon, headerIconAlt, children} = props;
 
   const styles = {
     width: width
   };
-
-
   return (
     <div className={`widget__container ${classes}`}>
       <div className="widget__header-wrapper" style={styles}>

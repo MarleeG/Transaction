@@ -39,7 +39,6 @@ input.input__toAccount {
   width: 95%;
   align-self: center;
   outline: none;
-
   margin: auto;
 }
 
@@ -49,8 +48,5 @@ span.recent-transaction-wdg__filters-prepend-sign:hover {
 }
 
 span.recent-transaction-wdg__filters-prepend-sign:active {
-  /* margin-top: 14px; */
-
   padding-top: 10px;
-  
 }

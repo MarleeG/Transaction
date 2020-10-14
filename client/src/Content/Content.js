@@ -8,11 +8,9 @@ import Button from "../UIELements/Button";
 import Modal from "../UIELements/Modal";
 
 import {
-  getData,
   updatedData,
-  generateDropdownOptions,
   addData,
-} from "../Data/tools/getData";
+} from "../Data/tools/data";
 
 // Images
 import TransferIcon from "../UIELements/assets/icons/arrows.png";
@@ -24,12 +22,14 @@ import DownArrow from "../UIELements/assets/icons/down-arrow.png";
 import "./Content.css";
 
 const log = console.log;
+let allowTransaction = false;
 const Content = (props) => {
   const [currentBalance, updateCurrentBalance] = useState(5824.76);
   const [currentKeyCode, updateCurrentKeyCode] = useState(null);
 
   const [transactions, updateTransactions] = useState([]);
-
+  const [filteredData, updatedFilteredData] = useState([]);
+  const [allowFilter, handleAllowFilter] = useState(true);
   const [dropdownOptions, updateDropdownOptions] = useState([]);
 
   const [modal, handleModal] = useState({
@@ -61,16 +61,12 @@ const Content = (props) => {
 
   const sortByDate = useCallback(
     (updated) => {
-      log("Sorting by Date...");
-      log(transactions);
-
       const data = updated || transactions;
       const sortedDatesEarliest = _.orderBy(data, ["dates.valueDate"], ["asc"]);
 
       const sortedDatesRecent = _.orderBy(data, ["dates.valueDate"], ["desc"]);
 
       if (sortByIcon.order === "asc") {
-        log(sortByIcon.order);
         updateTransactions(sortedDatesEarliest);
         handlePageUpdate(true);
 
@@ -81,7 +77,7 @@ const Content = (props) => {
           alt: "down-arrow",
         });
 
-        // others
+        // others icons
         updateSortAmountIcon({
           ...sortAmountIcon,
           order: "asc",
@@ -95,9 +91,7 @@ const Content = (props) => {
           alt: "up-arrow",
         });
 
-        log("sortedDatesEarliest ", sortedDatesEarliest);
       } else if (sortByIcon.order === "dsc") {
-        log(sortByIcon.order);
         updateTransactions(sortedDatesRecent);
         handlePageUpdate(true);
 
@@ -108,7 +102,7 @@ const Content = (props) => {
           alt: "up-arrow",
         });
 
-        // others
+        // others icons
         updateSortAmountIcon({
           ...sortAmountIcon,
           order: "dsc",
@@ -122,25 +116,15 @@ const Content = (props) => {
           alt: "down-arrow",
         });
 
-        log("sortedDatesRecent ", sortedDatesRecent);
       }
 
-      log(
-        "-----------------------------------------------------------------------------------------"
-      );
-
       handlePageUpdate(false);
-
-      // pageUpdate, transactions, sortByIcon
-      // sortByIcon, pageUpdate, 
     },
     [transactions]
   );
 
   const sortByBeneficiary = useCallback(
     (updated) => {
-      log("Sorting by Beneficiary...");
-
       const data = updated || transactions;
       const sortedByOrder = _.orderBy(data, ["merchant.name"], ["asc"]);
 
@@ -157,7 +141,7 @@ const Content = (props) => {
           alt: "down-arrow",
         });
 
-        // others
+        // others icons
         updateSortByIcon({
           ...sortByIcon,
           order: "asc",
@@ -172,7 +156,6 @@ const Content = (props) => {
           alt: "up-arrow",
         });
       } else if (sortBeneIcon.order == "dsc") {
-        log(sortBeneIcon.order);
         updateTransactions(sortedByReverseOrder);
         handlePageUpdate(true);
 
@@ -183,7 +166,7 @@ const Content = (props) => {
           alt: "up-arrow",
         });
 
-        // others
+        // others icons
         updateSortByIcon({
           ...sortByIcon,
           order: "dsc",
@@ -202,16 +185,11 @@ const Content = (props) => {
       handlePageUpdate(false);
     },
 
-    // sortBeneIcon, pageUpdate
     [transactions]
   );
 
   const sortByAmount = useCallback(
     (updated) => {
-      log("Sorting by Amount...");
-
-      log("Sorting by Date...");
-
       const data = updated || transactions;
       const sortBySmallest = _.orderBy(
         data,
@@ -226,7 +204,6 @@ const Content = (props) => {
       );
 
       if (sortAmountIcon.order === "asc") {
-        log(sortAmountIcon.order);
         updateTransactions(sortBySmallest);
         handlePageUpdate(true);
 
@@ -237,7 +214,7 @@ const Content = (props) => {
           alt: "down-arrow",
         });
 
-        // others
+        // other icons
         updateSortByIcon({
           ...sortByIcon,
           order: "asc",
@@ -252,9 +229,7 @@ const Content = (props) => {
           alt: "up-arrow",
         });
 
-        log("sortBySmallest ", sortBySmallest);
       } else if (sortAmountIcon.order === "dsc") {
-        log(sortAmountIcon.order);
         updateTransactions(sortByLargest);
         handlePageUpdate(true);
 
@@ -265,7 +240,7 @@ const Content = (props) => {
           alt: "up-arrow",
         });
 
-        // others
+        // other icons
         updateSortByIcon({
           ...sortByIcon,
           order: "dsc",
@@ -284,7 +259,6 @@ const Content = (props) => {
       handlePageUpdate(false);
     },
 
-    // sortAmountIcon, pageUpdate
     [transactions]
   );
 
@@ -307,8 +281,11 @@ const Content = (props) => {
   };
 
   const recentTransactionsUL = (trans) => {
-    // log('TRANS')
-    // log(trans)
+    if (filteredData.length > 0) {
+      trans = filteredData;
+    } else {
+      trans = trans;
+    }
     return (
       <ul className="recent-transaction-wdg__results-ul">
         {trans.length > 0 &&
@@ -323,8 +300,6 @@ const Content = (props) => {
               },
               imgData: { src, alt },
             } = obj;
-
-            // log(obj)
 
             return (
               <li
@@ -370,7 +345,7 @@ const Content = (props) => {
     );
   };
 
-  // dropdown
+  // Dropdown
   const [toAccountDropdownVal, updateToAccountDropdown] = useState("");
 
   // Inputs
@@ -379,8 +354,6 @@ const Content = (props) => {
   const [searchByInputVal, updateSearchByInput] = useState("");
 
   const handleAddData = () => {
-    log("ADD DATA");
-
     const {
       categoryCode,
       transaction: {
@@ -424,50 +397,15 @@ const Content = (props) => {
       },
     };
 
-    //update
-
     addData(value);
-    // let upd = updatedData();
 
-    // const sortedDatesEarliest = _.orderBy(updatedData(), ["dates.valueDate"], ["asc"]);
-
-      const sortedDatesRecent = _.orderBy(updatedData(), ["dates.valueDate"], ["desc"]);
+    const sortedDatesRecent = _.orderBy(
+      updatedData(),
+      ["dates.valueDate"],
+      ["desc"]
+    );
 
     updateTransactions(sortedDatesRecent);
-
-    // log(upd);
-    // updateTransactions();
-
-    // if (selectedSort === "DATE") {
-    //   // sortHandler("DATE");
-    //   sortByDate(updatedData());
-    // } else if (selectedSort === "BENEFICIARY") {
-    //   sortByBeneficiary(updatedData());
-    // } else if (selectedSort === "AMOUNT") {
-    //   sortByAmount(updatedData());
-    // }
-
-    // sortHandler("DATE");
-
-    // updateSortByIcon({
-    //   ...sortByIcon,
-    //   order: "dsc",
-    //   src: DownArrow,
-    //   alt: "down-arrow",
-    // });
-
-    // updateSortByIcon({
-    //   ...sortByIcon,
-    //   order: "asc",
-    //   src: UpArrow,
-    //   alt: "up-arrow",
-    // });
-
-    // sortByDate();
-
-    
-
-    // handlePageUpdate(true);
   };
 
   const modalHandler = (bool) => {
@@ -528,13 +466,35 @@ const Content = (props) => {
     } else {
       handleModal({ ...modal, show: false });
 
-      // subtract current balance from from what the user selected
-
-      // log(`reset: ${modal.reset}`)
-
       if (modal.reset) {
-        updateAmountInput(0);
-        updateToAccountDropdown(null);
+
+        if (typeof amountInputVal === "string") {
+          const amountToNumber = parseFloat(
+            parseFloat(amountInputVal).toFixed(2)
+          );
+
+          const remainingBalance = parseFloat(
+            parseFloat(currentBalance - amountToNumber).toFixed(2)
+          );
+
+          if(remainingBalance < -500){
+            handleModal({
+              ...modal,
+              show: true,
+              header: "Error",
+              btnText: "Close",
+              msg: "Your account cannot be below -$500. Please transfer a smaller amount.",
+              reset: false,
+            });
+
+          }else{
+            allowTransaction = true;
+            updateCurrentBalance(remainingBalance);
+            updateAmountInput(0);
+            updateToAccountDropdown(null);
+
+          }
+        }
       }
     }
   };
@@ -542,42 +502,27 @@ const Content = (props) => {
   const handleCloseModal = () => {
     modalHandler(false);
 
-    if (modal.reset) {
+    if (modal.reset && allowTransaction) {
       handleAddData();
+      allowTransaction = false;
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    log(`Make transfer widget values`);
-    log(`to account: ${toAccountDropdownVal}`);
-    log(`amount: ${amountInputVal}`);
-
     modalHandler(true);
   };
 
   const handleChange = (e) => {
     const { value, name } = e.target;
 
-    const isNumber =
-      currentKeyCode === 48 ||
-      currentKeyCode === 49 ||
-      currentKeyCode === 50 ||
-      currentKeyCode === 51 ||
-      currentKeyCode === 52 ||
-      currentKeyCode === 53 ||
-      currentKeyCode === 54 ||
-      currentKeyCode === 55 ||
-      currentKeyCode === 56 ||
-      currentKeyCode === 57;
+    const isNumber = Number.isInteger(
+      parseInt(String.fromCharCode(currentKeyCode))
+    );
 
     const isBackspace = currentKeyCode === 8;
-    // const isDash = currentKeyCode === 173;
     const isDot = currentKeyCode === 190;
 
-    // name="amountInput"
-    // name="searchByInput"
     switch (name) {
       case "amountInput":
         if (isDot && amountInputVal.toString().split("").indexOf(".") === -1) {
@@ -592,13 +537,91 @@ const Content = (props) => {
         break;
 
       default:
-        // adjust this later
-        alert("err");
+        handleModal({
+          ...modal,
+          show: true,
+          header: "Error",
+          btnText: "Close",
+          msg: "An error occured. Please try again",
+          reset: false
+        });
     }
   };
 
-  const keyDown = (e) => {
+  const updateTransactionsWithCharactersKeyed = (str, bool) => {
+    let currentValue = str;
+    let currentTransactions = transactions;
+    const isAnEmptyString = currentValue === "";
+
+    if (
+      !isAnEmptyString &&
+      currentValue !== undefined &&
+      typeof currentValue === "string"
+    ) {
+      let allCompanies = [];
+
+      // get company names and push them to allCompanies array
+      for (let i = 0; i < currentTransactions.length; i++) {
+        const obj = currentTransactions[i];
+        const companyName = obj.merchant.name;
+
+        allCompanies.push(companyName);
+      }
+
+      // This allows you to remove any duplicate companies
+      allCompanies = _.uniq(allCompanies);
+
+      let wordsWithKeyedValue = [];
+
+      for (let i = 0; i < allCompanies.length; i++) {
+        const companyName = allCompanies[i].toLowerCase();
+        const includesSubString = companyName.includes(
+          currentValue.toLowerCase()
+        );
+        if (includesSubString) {
+          wordsWithKeyedValue.push(allCompanies[i]);
+        }
+      }
+
+      let updatedUITransactions = [];
+
+      if (wordsWithKeyedValue.length > 0) {
+        for (let i = 0; i < wordsWithKeyedValue.length; i++) {
+          const companyName = wordsWithKeyedValue[i];
+
+          const transactionData = currentTransactions.filter(
+            (obj) => obj.merchant.name === companyName
+          );
+
+          updatedUITransactions.push(transactionData);
+        }
+      }
+
+      if (updatedUITransactions[0] !== undefined) {
+        if (!bool) {
+          if (updatedUITransactions[0].length > 0) {
+            updatedFilteredData(updatedUITransactions[0]);
+            handleAllowFilter(false);
+          }
+        } else if (updatedUITransactions[0].length > 0 && bool) {
+          updatedFilteredData(updatedUITransactions[0]);
+          handleAllowFilter(false);
+        }
+      }
+    } 
+  };
+
+  const keyDown = (e, specific_input) => {
     const { keyCode } = e;
+    const isBackspace = keyCode === 8;
+
+    if (
+      specific_input === "searchByInput" &&
+      isBackspace &&
+      searchByInputVal.split("").length === 1
+    ) {
+      clearSearchByInput();
+    }
 
     updateCurrentKeyCode(keyCode);
   };
@@ -618,22 +641,11 @@ const Content = (props) => {
       }
     }
 
-    console.log(options);
-
     return options;
   };
 
   const handleDropdownChange = (e, dropdownSelected) => {
     const { value } = e;
-
-    log("dropdown...");
-    log(e);
-
-    log(`toAccountDropdown: ${value}`);
-
-    log(`dropdownSelected: ${dropdownSelected}`);
-
-    log("-------------------");
 
     switch (dropdownSelected) {
       case "toAccountDropDown":
@@ -651,23 +663,29 @@ const Content = (props) => {
     }
   };
 
-  // const clearSearchByInput = () => {
-  //   updateSearchByInput("")
-  // }
-
-  const handleDropdownKeyDown = (e) => {
-    log(e.key);
+  const clearSearchByInput = () => {
+    updateSearchByInput("");
+    updatedFilteredData([]);
   };
 
   useEffect(() => {
     if (pageUpdate) {
       updateTransactions(updatedData());
       handlePageUpdate(false);
-
     }
 
+    if (searchByInputVal !== "") {
+      if (!allowFilter) {
+        handleAllowFilter(true);
+      }
+      updateTransactionsWithCharactersKeyed(searchByInputVal, allowFilter);
+    }
+
+    if (searchByInputVal === "") {
+      updatedFilteredData([]);
+    }
     updateDropdownOptions(generateDropdownOptions());
-  }, [transactions]);
+  }, [transactions, searchByInputVal]);
 
   return (
     <div className="content__container">
@@ -693,10 +711,6 @@ const Content = (props) => {
             label="TO ACCOUNT"
             type="text"
             placeholder="Georgia Power Electric Company"
-            // name="toAccountInput"
-            // val={toAccountInputVal}
-            // handleChange={handleChange}
-            // onKeyDown={keyDown}
             showInput={false}
             classes="input__toAccount"
           />
@@ -708,12 +722,9 @@ const Content = (props) => {
                 ({ value }) => value === toAccountDropdownVal
               )}
               width="50px"
-              // value={toAccountDropdownVal}
               menuColor="slate"
               className="make-transfer-wdg__react-select-container"
               onChange={(e) => handleDropdownChange(e, "toAccountDropDown")}
-
-              // onKeyDown={handleDropdownKeyDown}
             />
           )}
 
@@ -759,10 +770,11 @@ const Content = (props) => {
               stylesForInputContainer={{ width: "45%", margin: "10px" }}
               name="searchByInput"
               val={searchByInputVal}
+              disabled={modal.show}
               handleChange={handleChange}
-              onKeyDown={keyDown}
+              onKeyDown={(e) => keyDown(e, "searchByInput")}
               showInput={true}
-              updateSearchByInput={updateSearchByInput}
+              updateSearchByInput={clearSearchByInput}
               prependSign="X"
               stylesForPrependSign={{
                 display: "table",
