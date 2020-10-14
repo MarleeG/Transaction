@@ -1,10 +1,16 @@
-.content__container{
-    width: 95vw;
-    height: 83vh;
-    margin: auto;
-    margin-top: 5px;
-    display: flex;
-    flex-direction: row;
-    padding: 10px;
-    justify-content: center;
+.content__container {
+  width: 95vw;
+  height: 83vh;
+  margin: auto;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  justify-content: center;
+}
+
+@media only screen and (max-height: 725px) and (max-width: 1215px) {
+  .content__container {
+    flex-wrap: wrap;
+  }
 }
