@@ -55,3 +55,15 @@ table.modal__table td {
   padding-bottom: 10px;
   background: #F7F6F5;
 }
+
+
+@media only screen and (max-height: 725px) and (max-width: 1215px)  {
+    .modal__make-transfer-modal-btn{
+        width: 60%;
+    }
+
+    .modal__container{
+        width: 75%;
+        height: 50%;
+    }
+}

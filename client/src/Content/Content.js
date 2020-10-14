@@ -21,7 +21,6 @@ import DownArrow from "../UIELements/assets/icons/down-arrow.png";
 
 import "./Content.css";
 
-const log = console.log;
 let allowTransaction = false;
 const Content = (props) => {
   const [currentBalance, updateCurrentBalance] = useState(5824.76);
@@ -40,7 +39,6 @@ const Content = (props) => {
 
   const [pageUpdate, handlePageUpdate] = useState(true);
 
-  const [selectedSort, updateSelectedSort] = useState("");
   const [sortByIcon, updateSortByIcon] = useState({
     order: "asc",
     src: "",
@@ -120,7 +118,7 @@ const Content = (props) => {
 
       handlePageUpdate(false);
     },
-    [transactions]
+    [transactions, sortAmountIcon,sortBeneIcon, sortByIcon]
   );
 
   const sortByBeneficiary = useCallback(
@@ -155,7 +153,7 @@ const Content = (props) => {
           src: UpArrow,
           alt: "up-arrow",
         });
-      } else if (sortBeneIcon.order == "dsc") {
+      } else if (sortBeneIcon.order === "dsc") {
         updateTransactions(sortedByReverseOrder);
         handlePageUpdate(true);
 
@@ -185,7 +183,7 @@ const Content = (props) => {
       handlePageUpdate(false);
     },
 
-    [transactions]
+    [transactions,sortAmountIcon,sortBeneIcon, sortByIcon]
   );
 
   const sortByAmount = useCallback(
@@ -259,11 +257,10 @@ const Content = (props) => {
       handlePageUpdate(false);
     },
 
-    [transactions]
+    [transactions, sortAmountIcon,sortBeneIcon, sortByIcon]
   );
 
   const sortHandler = (selected) => {
-    updateSelectedSort(selected);
 
     switch (selected) {
       case "DATE":
@@ -283,9 +280,7 @@ const Content = (props) => {
   const recentTransactionsUL = (trans) => {
     if (filteredData.length > 0) {
       trans = filteredData;
-    } else {
-      trans = trans;
-    }
+    } 
     return (
       <ul className="recent-transaction-wdg__results-ul">
         {trans.length > 0 &&
@@ -586,6 +581,7 @@ const Content = (props) => {
       let updatedUITransactions = [];
 
       if (wordsWithKeyedValue.length > 0) {
+
         for (let i = 0; i < wordsWithKeyedValue.length; i++) {
           const companyName = wordsWithKeyedValue[i];
 
@@ -597,18 +593,30 @@ const Content = (props) => {
         }
       }
 
-      if (updatedUITransactions[0] !== undefined) {
+      let newUpdatedTransactions = [];
+      if(updatedUITransactions.length > 0){
+        for(let i = 0; i< updatedUITransactions.length; i++){
+          let currentArray = updatedUITransactions[i];
+          for(let x = 0; x < currentArray.length; x++){
+            newUpdatedTransactions.push(currentArray[x]);
+          }
+        }
+      }
+
+      if (newUpdatedTransactions !== undefined) {
         if (!bool) {
-          if (updatedUITransactions[0].length > 0) {
-            updatedFilteredData(updatedUITransactions[0]);
+          if (newUpdatedTransactions.length > 0) {
+            updatedFilteredData(newUpdatedTransactions);
             handleAllowFilter(false);
           }
-        } else if (updatedUITransactions[0].length > 0 && bool) {
-          updatedFilteredData(updatedUITransactions[0]);
+        } else if (newUpdatedTransactions.length > 0 && bool) {
+          updatedFilteredData(newUpdatedTransactions);
           handleAllowFilter(false);
         }
       }
     } 
+
+
   };
 
   const keyDown = (e, specific_input) => {
@@ -685,7 +693,7 @@ const Content = (props) => {
       updatedFilteredData([]);
     }
     updateDropdownOptions(generateDropdownOptions());
-  }, [transactions, searchByInputVal]);
+  }, [transactions, searchByInputVal, allowFilter]);
 
   return (
     <div className="content__container">

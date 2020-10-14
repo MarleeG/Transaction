@@ -104,7 +104,7 @@ img.recent-transaction-wdg__filters-li-sort-by-icon {
   margin: 1px;
 
   filter: grayscale(150%);
-  opacity: .5;
+  opacity: 0.5;
 }
 
 li.recent-transaction-wdg__filters-li:hover {
@@ -181,4 +181,87 @@ img.recent-transaction-wdg__results-company-img {
   right: 0;
   margin-right: 10px;
   font-weight: 800;
+}
+
+@media only screen and (max-height: 725px) and (max-width: 1215px) {
+  .make-transfer-wdg {
+    width: 100% !important;
+  }
+
+  .recent-transaction-wdg__filters.recent-transaction-wdg__col {
+    height: 8%;
+  }
+
+  .widget__header-wrapper {
+    width: 100% !important;
+  }
+
+  .widget__container.recent-transaction-wdg {
+    width: 100% !important;
+    margin-bottom: 10px;
+  }
+
+  .widget__container.recent-transaction-wdg > .widget__header-wrapper {
+    height: 8%;
+  }
+}
+
+@media only screen and (max-height: 725px) and (max-width: 1215px) {
+  .widget__container.make-transfer-wdg {
+    height: 70%;
+  }
+}
+
+@media only screen and (max-width: 1215px) {
+  .widget__container.make-transfer-wdg {
+    height: 80% !important;
+  }
+}
+
+@media only screen and (max-width: 775px) {
+  span.widget-header-icon img {
+    width: 5vw;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .recent-transaction-wdg__filters {
+    flex-direction: column;
+  }
+
+  .recent-transaction-wdg__filters.recent-transaction-wdg__col {
+    height: 20%;
+  }
+
+  .recent-transaction-wdg__filters-li, .recent-transaction-wdg__filters-sort-by-txt {
+    height: 80%;
+  }
+
+  .recent-transaction-wdg__col .input__container{
+      width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+    .recent-transaction-wdg__filters-ul{
+        align-items: center;
+    }
+
+    .recent-transaction-wdg__filters-li{
+        height: 55%;
+    }
+
+    .recent-transaction-wdg__filters-sort-by-txt{
+        display: none;
+    }
+}
+
+@media only screen and (max-height: 700px) {
+  .widget__container.make-transfer-wdg{
+    height: 25vw;
+  }
+
+  .recent-transaction-wdg__filters.recent-transaction-wdg__col{
+    height: 18%;
+  }
 }
