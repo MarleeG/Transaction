@@ -25,6 +25,8 @@ npm start
 
 Navigate to URL mentioned above in your browser.
 
+Recommened browser: Chrome or FireFox
+
 
 Note: You must have Node.js installed to run any npm command. 
 
