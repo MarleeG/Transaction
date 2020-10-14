@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { CSSTransition } from "react-transition-group";
 import Button from "./Button";
-// import Backdrop from "./Backdrop";
 
 import "./Modal.css";
 
@@ -11,8 +10,6 @@ const ModalOverlay = (props) => {
     data: { header, btnText, account, amount, msg },
     closeModal,
     disabled,
-    
-    children,
   } = props;
 
   useEffect(() => {}, []);
@@ -21,7 +18,6 @@ const ModalOverlay = (props) => {
     <div className="modal__container">
       <h1 className="modal__header">{header}</h1>
 
-      {/* {children} */}
       <div className="modal__body">
 
       {btnText === "Transfer" && (
@@ -62,10 +58,6 @@ const ModalOverlay = (props) => {
 const Modal = (props) => {
   return (
     <Fragment>
-      {/* {props.show && (
-          <Backdrop onClick={props.onHide} style={{ zIndex: 105 }} />
-        )} */}
-
       <CSSTransition
         in={props.show}
         mountOnEnter
