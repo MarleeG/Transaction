@@ -23,7 +23,7 @@ cd ../
 npm start
 ```
 
-Navigate to URL mentioned above in your browser.
+Navigate to the URL mentioned above in your browser.
 
 Recommended browser: Chrome or FireFox
 
